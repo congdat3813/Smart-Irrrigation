@@ -40,6 +40,7 @@ export enum FontSize {
   TINY = 12,
   SMALL = 16,
   REGULAR = 20,
+  SEMI_TITLE = 22,
   TITLE = 25,
   LARGE = 40,
 }

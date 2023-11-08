@@ -11,6 +11,7 @@ import { FarmDetailContainer } from "@/Screens/FarmDetail";
 import { IrrigationModeContainer } from "@/Screens/IrrigationMode";
 import { ModelContainer } from "@/Screens/Model";
 import { HistoryContainer } from "@/Screens/History";
+import { WeatherContainer } from "@/Screens/Weather";
 export type RootStackParamList = {
   // [RootScreens.MAIN]: undefined;
   // [RootScreens.WELCOME]: undefined;
@@ -22,6 +23,7 @@ export type RootStackParamList = {
   [RootScreens.NOTIFICATION]: undefined;
   [RootScreens.REPORT]: undefined;
   [RootScreens.PROFILE]: undefined;
+  [RootScreens.WEATHER]: undefined;
 };
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
@@ -60,7 +62,10 @@ const ApplicationNavigator = () => {
         <RootStack.Screen
           name={RootScreens.HISTORY}
           component={HistoryContainer}
-        />
+        /><RootStack.Screen
+        name={RootScreens.WEATHER}
+        component={WeatherContainer}
+      />
       </RootStack.Navigator>
     </NavigationContainer>
   );

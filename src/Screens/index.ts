@@ -9,4 +9,5 @@ export enum RootScreens {
   NOTIFICATION = "Notification",
   PROFILE = "Profile",
   REPORT = "Report",
+  WEATHER = "Weather",
 }

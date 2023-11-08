@@ -10,15 +10,15 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "@/Navigation";
 import { RootScreens } from "..";
 import {FontSize, Colors} from "@/Theme"
-import {FarmDetailScreenNavigatorProps} from "./FarmDetailContainer";
+import {WeatherScreenNavigatorProps} from "./WeatherContainer";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-export interface IFarmDetailProps {
-    navigation: FarmDetailScreenNavigatorProps;
+export interface IWeatherProps {
+    navigation: WeatherScreenNavigatorProps;
 }
 
-export const FarmDetail = (props: {
-    onNavigate: (string: RootScreens) => void;
+export const Weather = (props: {
+  onNavigate: (string: RootScreens) => void;
   }) => {
   return(
     <SafeAreaView>
@@ -42,13 +42,13 @@ export const FarmDetail = (props: {
       </View>
       <View style={styles.body}>
         <View style={styles.leftNavigation}>
-          <View style={styles.active}>
+          <View style={styles.inactive}>
             <Pressable onPress={() => props.onNavigate(RootScreens.FARMDETAIL)} style={styles.activePress}>
-              <View style={styles.activeCycle}>
+              <View style={styles.cycle}>
                 <AntDesign name="info" size={30} color={Colors.BOLD_BUTTON} style={styles.iconStyle}/>
               </View>
               <View style={styles.intro}>
-                <Text style={styles.activeContent}>Thông tin</Text>
+                <Text style={styles.inactiveContent}>Thông tin</Text>
               </View>
             </Pressable>
           </View>
@@ -72,20 +72,20 @@ export const FarmDetail = (props: {
               </View>
             </Pressable>
           </View>
-          <View style={styles.inactive}>
+          <View style={styles.active}>
             <Pressable onPress={() => props.onNavigate(RootScreens.WEATHER)} style={styles.activePress}>
-              <View style={styles.cycle}>
+              <View style={styles.activeCycle}>
                 <AntDesign name="cloudo" size={24} color={Colors.BOLD_BUTTON} style={styles.iconStyle} />
               </View>
               <View style={styles.intro}>
-                <Text style={styles.inactiveContent}>Thời tiết</Text>
+                <Text style={styles.activeContent}>Thời tiết</Text>
               </View>
             </Pressable>
           </View>
           <View style={styles.inactive}>
             <Pressable onPress={() => props.onNavigate(RootScreens.HISTORY)} style={styles.activePress}>
               <View style={styles.cycle}>
-                <FontAwesome5 name="history" size={24} color={Colors.BOLD_BUTTON} style={styles.iconStyle} />
+                <FontAwesome5 name="history" size={20} color={Colors.BOLD_BUTTON} style={styles.iconStyle} />
               </View>
               <View style={styles.intro}>
                 <Text style={styles.inactiveContent}>Lịch sử</Text>
@@ -95,7 +95,7 @@ export const FarmDetail = (props: {
         </View>
         <View style={styles.info}>
             <View style={styles.liveWeather}>
-
+            
             </View>
             <Text style={styles.semiTitle}>Dự báo theo giờ</Text>
             <View style={styles.weatherForecast}>
