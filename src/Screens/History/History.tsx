@@ -13,6 +13,7 @@ import {FontSize, Colors} from "@/Theme"
 import {HistoryScreenNavigatorProps} from "./HistoryContainer";
 import { SafeAreaView } from "react-native-safe-area-context";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import Moment from 'moment';
 
 export interface IHistoryProps {
     navigation: HistoryScreenNavigatorProps;
@@ -60,19 +61,19 @@ export const History = (props: {
                 {
                     model: 'Năng suất',
                     waterAmount: '02 lít',
-                    length: '10 phút',
+                    lengthTime: '10 phút',
                     time: '08:20',
                 },
                 {
                     model: 'Năng suất',
                     waterAmount: '02 lít',
-                    length: '10 phút',
+                    lengthTime: '10 phút',
                     time: '13:10',
                 },
                 {
                     model: 'Năng suất',
                     waterAmount: '02 lít',
-                    length: '10 phút',
+                    lengthTime: '10 phút',
                     time: '17:00',
                 },
             ],
@@ -83,24 +84,28 @@ export const History = (props: {
                 {
                     model: 'Năng suất',
                     waterAmount: '02 lít',
-                    length: '10 phút',
+                    lengthTime: '10 phút',
                     time: '08:20',
                 },
                 {
                     model: 'Năng suất',
                     waterAmount: '02 lít',
-                    length: '10 phút',
+                    lengthTime: '10 phút',
                     time: '13:10',
                 },
                 {
                     model: 'Năng suất',
                     waterAmount: '02 lít',
-                    length: '10 phút',
+                    lengthTime: '10 phút',
                     time: '17:00',
                 },
             ],
         },
     ];
+
+    const moment = require('moment');
+
+    let now = moment().format('LLLL');
 
   return(
     <SafeAreaView>
@@ -186,6 +191,7 @@ export const History = (props: {
                     <DateTimePickerModal
                         isVisible={isStartDatePickerVisible}
                         mode="date"
+                        display="inline"
                         date={startDate}
                         onConfirm={handleStartConfirm}
                         onCancel={hideStartDatePicker}
@@ -202,6 +208,7 @@ export const History = (props: {
                     <DateTimePickerModal
                         isVisible={isEndDatePickerVisible}
                         mode="date"
+                        display="inline"
                         date={endDate}
                         onConfirm={handleEndConfirm}
                         onCancel={hideEndDatePicker}
@@ -229,25 +236,31 @@ export const History = (props: {
                 <SectionList
                     stickySectionHeadersEnabled={false}
                     sections={DATA}
-                    keyExtractor={(item, index) => item + index}
                     renderItem={({item}) => (
-                        <View style={styles.historyInfoList}>
-                            <View style={styles.historyInfoItem}>
-                                <Text style={styles.historyInfoContent}>{item.model}</Text>
-                            </View>
-                            <View style={styles.historyInfoItem}>
-                                <Text style={styles.historyInfoContent}>{item.waterAmount}</Text>
-                            </View>
-                            <View style={styles.historyInfoItem}>
-                                <Text style={styles.historyInfoContent}>{item.length}</Text>
-                            </View>
-                            <View style={styles.historyInfoItem}>
-                                <Text style={styles.historyInfoContent}>{item.time}</Text>
-                            </View>
-                        </View>
+                      <View style={styles.historyInfoList}>
+                          <View style={styles.historyInfoItem}>
+                              <Text style={styles.historyInfoContent}>{item.model}</Text>
+                          </View>
+                          <View style={styles.historyInfoItem}>
+                              <Text style={styles.historyInfoContent}>{item.waterAmount}</Text>
+                          </View>
+                          <View style={styles.historyInfoItem}>
+                              <Text style={styles.historyInfoContent}>{item.lengthTime}</Text>
+                          </View>
+                          <View style={styles.historyInfoItem}>
+                              <Text style={styles.historyInfoContent}>{item.time}</Text>
+                          </View>
+                      </View>
                     )}
+                    ListEmptyComponent={
+                      <View style={{alignSelf: 'center', left: '-5%'}}>
+                        <Text style={styles.semiTitle}>Không có dữ liệu</Text>
+                      </View>
+                    }
                     renderSectionHeader={({section: {day}}) => (
-                        <Text style={styles.semiTitle}>{day}</Text>
+                      <View style={{paddingLeft: '2%', paddingTop: '5%',}}>
+                        <Text style={styles.regularText}>{day}</Text>
+                      </View>
                     )}
                 />
             </View>
