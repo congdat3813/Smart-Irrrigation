@@ -13,6 +13,11 @@ import ProfileUpdateScreen from "@/Screens/Profile/ProfileUpdate";
 import NotifyCotainer from "@/Screens/Notify/NotifyContainer";
 import StatisticContainer from "@/Screens/Statics/StatisticContainer";
 import { HomeContainer } from "@/Screens/Home";
+import AddFarmScreenContainer from "@/Screens/AddFarm/AddFarmContainer";
+import RegisterScreen01 from "@/Screens/Login/Register/RegisterScreen_1";
+import RegisterScreen02 from "@/Screens/Login/Register/RegisterScreen_2";
+import RegisterScreen03 from "@/Screens/Login/Register/RegisterScreen_3";
+import RegisterScreen04 from "@/Screens/Login/Register/RegisterScreen_4";
 
 // register screen
 export type RootStackParamList = {
@@ -26,6 +31,11 @@ export type RootStackParamList = {
   [RootScreens.NOTIFY]: undefined;
   [RootScreens.STATISTIC]: undefined;
   [RootScreens.HOME]: undefined;
+  [RootScreens.ADDFARM]: undefined;
+  [RootScreens.REGISTER1]:undefined;
+  [RootScreens.REGISTER2]:undefined;
+  [RootScreens.REGISTER3]:undefined;
+  [RootScreens.REGISTER4]:undefined;
 };
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
@@ -60,6 +70,31 @@ const ApplicationNavigator = () => {
         <RootStack.Screen
           name={RootScreens.HOME}
           component={HomeContainer}
+          options={{}}
+        ></RootStack.Screen>
+        <RootStack.Screen
+          name={RootScreens.REGISTER1}
+          component={RegisterScreen01}
+          options={{}}
+        ></RootStack.Screen>
+        <RootStack.Screen
+          name={RootScreens.REGISTER4}
+          component={RegisterScreen04}
+          options={{}}
+        ></RootStack.Screen>
+        <RootStack.Screen
+          name={RootScreens.REGISTER2}
+          component={RegisterScreen02}
+          options={{}}
+        ></RootStack.Screen>
+        <RootStack.Screen
+          name={RootScreens.REGISTER3}
+          component={RegisterScreen03}
+          options={{}}
+        ></RootStack.Screen>
+        <RootStack.Screen
+          name={RootScreens.ADDFARM}
+          component={AddFarmScreenContainer}
           options={{}}
         ></RootStack.Screen>
         <RootStack.Screen

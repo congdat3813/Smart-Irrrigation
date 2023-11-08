@@ -7,7 +7,7 @@ import { colors } from "../../Components/colors";
 import bg from "../../../assets/bg/loginbg.png";
 import logo from "../../../assets//bg/logocay.png";
 import RegularText from "@/Components/texts/RegularText";
-import { TextInput } from "react-native";
+import { Pressable, TextInput } from "react-native";
 import MailIcon from "../../../assets/icon/MailIcon";
 import RegularButton from "@/Components/button/RegularButton";
 import { View } from "react-native";
@@ -70,7 +70,7 @@ const LoginScreen: FunctionComponent = () => {
         <BackgroundImage source={bg}>
           <LogoContainer source={logo}></LogoContainer>
           <BigContainer>
-            <InputDivContainer style={{ marginTop: 74 }}>
+            <InputDivContainer style={{ marginTop: 50 }}>
               <Feather
                 name="mail"
                 size={24}
@@ -104,6 +104,15 @@ const LoginScreen: FunctionComponent = () => {
               >
                 Đăng Nhập
               </RegularButton>
+            </View>
+            <View style={{ display: "flex", flexDirection: "row", alignSelf:'center', margin:20 }}>
+              <Pressable style={{ marginHorizontal: 5 }} onPress={()=>{navigation.navigate(RootScreens.REGISTER1)}}>
+                <RegularText textStyles={{color:colors.primary}}>Đăng nhập bằng điện thoại</RegularText>
+              </Pressable>
+              <RegularText textStyles={{color:colors.primary}}>|</RegularText>
+              <Pressable style={{ marginHorizontal: 5 }} onPress={()=>{navigation.navigate(RootScreens.REGISTER3)}}>
+                <RegularText textStyles={{color:colors.primary}}>Đăng kí</RegularText>
+              </Pressable>
             </View>
           </BigContainer>
         </BackgroundImage>

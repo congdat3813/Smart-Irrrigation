@@ -1,9 +1,9 @@
 import { ReactNode } from "react";
 import { StyleProp, TextStyle } from "react-native";
 
-export interface TreeItemProps {
+export interface NotifyItemProps {
   textStyles?: StyleProp<TextStyle>;
-  treeName: String;
-  temp: String;
-  moisture: String;
+  title: String,
+  detail: String,
+  time: String
 }

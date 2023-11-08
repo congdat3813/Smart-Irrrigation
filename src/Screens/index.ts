@@ -9,4 +9,9 @@ export enum RootScreens {
   NOTIFY = "Notify",
   STATISTIC = "Statistic",
   HOME = "Home",
+  ADDFARM= "Add Farm",
+  REGISTER1 = "Register1",
+  REGISTER2 = "Register2",
+  REGISTER3 = "Register3",
+  REGISTER4 = "Register4",
 }

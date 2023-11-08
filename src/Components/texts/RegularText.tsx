@@ -15,7 +15,7 @@ import { TextProps } from "./types";
 /* Receive 2 arguments and pass it into the function */
 const RegularText: FunctionComponent<TextProps> = (props) => {
   return (
-    <StyledText style={props.textStyles as any}>{props.children}</StyledText>
+    <StyledText style={props.textStyles as any} ellipsizeMode="tail" lineBreakMode="clip">{props.children}</StyledText>
   );
 };
 export default RegularText;

@@ -5,10 +5,12 @@ import styled from "styled-components/native";
 import { Container } from "../../Components/shared";
 import { colors } from "../../Components/colors";
 import RegularText from "@/Components/texts/RegularText";
-import { SafeAreaView } from "react-native";
+import { SafeAreaView, View } from "react-native";
 import BigText from "@/Components/texts/BigText";
 import logo from "../../../assets//bg/logocay.png";
 import { SimpleLineIcons } from "@expo/vector-icons";
+import { ScrollView } from "native-base";
+import NotifyItem from "@/Components/item/NotifyItem/NotifyItem";
 
 const NotifyCotainer = styled(Container)`
   justify-content: flex-start;
@@ -27,6 +29,10 @@ const LogoContainer = styled.Image`
   width: 9%;
   resize-mode: contain;
 `;
+const Subcontainer = styled.ScrollView`
+  width: 100%;
+  height: fit;
+`
 const NotfifyScreen: FunctionComponent = () => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
@@ -47,6 +53,58 @@ const NotfifyScreen: FunctionComponent = () => {
             PLANTSCAPE
           </BigText>
         </Header>
+        <Subcontainer style={{display:'flex'}}>
+          <RegularText textStyles={{marginLeft: 10, marginVertical:10, color: '#64748b'}}>
+            Today
+          </RegularText>
+          <View style={{display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center'}}>
+            <NotifyItem
+              title={"Vuon Xoai"}
+              detail={"Complete in 10 minutes"}
+              time={"At 8:10 Morning"}
+            ></NotifyItem>
+            <NotifyItem
+              title={"Vuon Xoai"}
+              detail={"Start Operation in about 5 minutes"}
+              time={"At 8:10 Morning"}
+            ></NotifyItem>
+            <NotifyItem
+              title={"Vuon Xoai"}
+              detail={"Preparing to start the task. Estimate about 10 minutes."}
+              time={"At 8:10 Morning"}
+            ></NotifyItem>
+            <NotifyItem
+              title={"Vuon Xoai"}
+              detail={"Complete"}
+              time={"At 8:10 Morning"}
+            ></NotifyItem>
+          </View>
+          <RegularText textStyles={{marginLeft: 10, marginVertical:10,color: '#64748b'}}>
+            Yesterday
+          </RegularText>
+          <View style={{display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center'}}>
+          <NotifyItem
+              title={"Vuon Xoai"}
+              detail={"Complete"}
+              time={"At 8:10 Morning"}
+            ></NotifyItem>
+            <NotifyItem
+              title={"Vuon Xoai"}
+              detail={"Complete"}
+              time={"At 8:10 Morning"}
+            ></NotifyItem>
+            <NotifyItem
+              title={"Vuon Xoai"}
+              detail={"Complete"}
+              time={"At 8:10 Morning"}
+            ></NotifyItem>
+            <NotifyItem
+              title={"Vuon Xoai"}
+              detail={"Complete"}
+              time={"At 8:10 Morning"}
+            ></NotifyItem>
+          </View>
+        </Subcontainer>
       </NotifyCotainer>
     </SafeAreaView>
   );

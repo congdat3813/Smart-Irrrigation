@@ -7,12 +7,18 @@ import { colors } from "../../Components/colors";
 
 import RegularText from "@/Components/texts/RegularText";
 import BigText from "@/Components/texts/BigText";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { Pressable, SafeAreaView } from "react-native";
 import logo from "../../../assets//bg/logocay.png";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import { EvilIcons } from "@expo/vector-icons";
 import { TextInput } from "react-native";
 import TreeItem from "@/Components/item/TreeItem";
+import RegularButton from "@/Components/button/RegularButton";
+import { AntDesign } from '@expo/vector-icons';
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useNavigation } from "@react-navigation/native";
+import { RootStackParamList } from "@/Navigation";
+import { RootScreens } from "..";
 const MainScreenContainer = styled.View`
   background-color: ${colors.white};
   flex: 1;
@@ -40,12 +46,14 @@ const InputContainer = styled.View`
 const ItemContainer = styled.ScrollView`
   height: 110%;
   width: 100%;
-  margin-top: 20px;
+  margin-top: 2px;
   display: flex;
   flex-direction: col;
   overflow-y: scroll;
 `;
 const MainScreen: FunctionComponent = () => {
+  const navigation =
+  useNavigation<NativeStackNavigationProp<RootStackParamList>>();;
   return (
     <SafeAreaView
       style={{
@@ -80,36 +88,42 @@ const MainScreen: FunctionComponent = () => {
             style={{ width: 100, flexGrow: 1, marginLeft: 10 }}
           ></TextInput>
         </InputContainer>
+        <Pressable onPress={()=>{navigation.navigate(RootScreens.ADDFARM)}} style={{alignSelf:'flex-end',padding: 4, marginHorizontal:10, marginTop: 7, borderRadius:10,backgroundColor:colors.lightgray, width: 110, height: 40, display:'flex', flexDirection:'row', justifyContent:'center', alignItems:'center'}}>
+            <AntDesign name="pluscircle" size={18} color={colors.primary} />
+            <RegularText textStyles={{textAlign:'center', marginHorizontal:5}}>
+              Add Farm
+            </RegularText>
+        </Pressable>
         <ItemContainer>
           <TreeItem
             treeName={"Cây xoài"}
-            treeLocation={"Đồng Nai"}
-            treeMode={false}
+            temp={"30"}
+            moisture={"67"}
           ></TreeItem>
           <TreeItem
             treeName={"Cây cam"}
-            treeLocation={"Đồng Nai"}
-            treeMode={true}
+            temp={"30"}
+            moisture={"67"}
           ></TreeItem>
           <TreeItem
             treeName={"Cây cam"}
-            treeLocation={"Đồng Nai"}
-            treeMode={true}
+            temp={"30"}
+            moisture={"67"}
           ></TreeItem>
           <TreeItem
             treeName={"Cây cam"}
-            treeLocation={"Đồng Nai"}
-            treeMode={true}
+            temp={"30"}
+            moisture={"67"}
           ></TreeItem>
           <TreeItem
             treeName={"Cây cam"}
-            treeLocation={"Đồng Nai"}
-            treeMode={true}
+            temp={"30"}
+            moisture={"67"}
           ></TreeItem>
           <TreeItem
             treeName={"Cây cam"}
-            treeLocation={"Đồng Nai"}
-            treeMode={true}
+            temp={"30"}
+            moisture={"67"}
           ></TreeItem>
         </ItemContainer>
       </MainScreenContainer>

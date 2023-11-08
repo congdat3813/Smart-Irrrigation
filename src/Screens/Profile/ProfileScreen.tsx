@@ -7,7 +7,7 @@ import { colors } from "../../Components/colors";
 import SmallText from "@/Components/texts/SmallText";
 import RegularText from "@/Components/texts/RegularText";
 import BigText from "@/Components/texts/BigText";
-import { SafeAreaView } from "react-native";
+import { Pressable, SafeAreaView } from "react-native";
 import userImage from "../../../assets//bg/UserImage.png";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
@@ -36,7 +36,7 @@ const UserImageContainer = styled.Image`
   resize-mode: contain;
   margin: 15px 18px;
   border: 3px solid #fff;
-  border-radius: 50%;
+  border-radius: 50px;
 `;
 const Wrapper = styled.View``;
 const SubContainer = styled.View`
@@ -58,7 +58,7 @@ const Circle = styled.View`
   align-items: center;
 `;
 const ProfileScreen: FunctionComponent = () => {
-  const navigaiton =
+  const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   return (
     <SafeAreaView
@@ -94,7 +94,7 @@ const ProfileScreen: FunctionComponent = () => {
             color="white"
             style={{ alignSelf: "center", marginLeft: 170 }}
             onPress={() => {
-              navigaiton.navigate(RootScreens.UPDATEPROFILE);
+              navigation.navigate(RootScreens.UPDATEPROFILE);
             }}
           />
         </Header>
@@ -153,7 +153,9 @@ const ProfileScreen: FunctionComponent = () => {
               width: "30%",
             }}
           >
+            <Pressable onPress={()=>{navigation.navigate(RootScreens.LOGIN)}}>
             <RegularText>Đăng xuất</RegularText>
+            </Pressable>
           </Wrapper>
           <MaterialIcons name="keyboard-arrow-right" size={24} color="black" />
         </SubContainer>

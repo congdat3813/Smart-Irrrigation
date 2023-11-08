@@ -6,6 +6,7 @@ import { Container } from "../shared";
 import { Ionicons } from "@expo/vector-icons";
 import RegularText from "../texts/RegularText";
 import plant1 from "../../../assets/bg/plant1.png";
+
 const ItemContainer = styled.View`
   flex-direction: row;
   align-items: center;
@@ -39,19 +40,12 @@ const TreeItem: FunctionComponent<TreeItemProps> = (props) => {
           {props.treeName}
         </BigText>
         <RegularText textStyles={{ fontWeight: "200" }}>
-          {props.treeLocation}
+          {"Temperature :" + props.temp + "oC"}
         </RegularText>
         <RegularText textStyles={{ fontWeight: "200" }}>
-          {props.treeMode ? "Tưới tự động" : "Tưới thủ công"}
+          {"Moisture : " + props.moisture + "%"}
         </RegularText>
       </DetailContainer>
-      <Ionicons
-        name="md-water-sharp"
-        size={62}
-        color={props.treeMode ? "blue" : "gray"}
-        style={{ marginLeft: 100 }}
-        onPress={() => {}}
-      />
     </ItemContainer>
   );
 };
