@@ -1,7 +1,7 @@
 import { i18n, LocalizationKey } from "@/Localization";
 import React, {useEffect, useState} from "react";
 import { FontAwesome5, AntDesign, Entypo, MaterialCommunityIcons, MaterialIcons, Ionicons} from "@expo/vector-icons";
-import { ActivityIndicator, FlatList, View, Text, StyleSheet, Image, Pressable} from "react-native";
+import { ActivityIndicator, FlatList, View, Text, StyleSheet, Image, Pressable, Dimensions} from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { HStack, Spinner, Heading, ScrollView } from "native-base";
 import { User } from "@/Services";
@@ -12,6 +12,9 @@ import { RootScreens } from "..";
 import {FontSize, Colors} from "@/Theme"
 import {WeatherScreenNavigatorProps} from "./WeatherContainer";
 import { SafeAreaView } from "react-native-safe-area-context";
+
+const screenWidth = Dimensions.get('window').width;
+const screenScale = screenWidth / 375;
 
 
 export interface IWeatherProps {
@@ -105,13 +108,13 @@ export const Weather = (props: {
                   </View>
                   <View style={styles.realTimeWeatherInfo}>
                     <Text style={styles.realTempText}>32&#176;</Text>
-                    <Text style={styles.title} adjustsFontSizeToFit={true} numberOfLines={1}>Nhiều mây</Text>
+                    <Text style={styles.realTimeWeatherText}>Nhiều mây</Text>
                   </View>
                 </View>
                 <View style={styles.line}></View>
                 <View style={styles.realTimeWeatherBottom}>
                   <View style={styles.chanceOfRain}>
-                    <Text style={styles.smallText}  adjustsFontSizeToFit={true} numberOfLines={1}>Phần trăm mưa</Text>
+                    <Text style={styles.smallText}>Phần trăm mưa</Text>
                     <View style={{flexDirection: 'row', alignItems: 'center', marginTop: 5,}}>
                       <Ionicons name='rainy-outline' size={23} color={Colors.BOLD_BUTTON} />
                       <View style={{marginLeft: 5,}}>
@@ -134,30 +137,75 @@ export const Weather = (props: {
                 <Text style={styles.title}>Thời tiết theo giờ</Text>
                 <ScrollView horizontal={true} style={styles.hoursScrollView}>
                   <View style={styles.hoursWeatherItem}>
-                    <Text>Bây giờ</Text>
+                    <Text style={{color: Colors.BOLD_BUTTON}}>Bây giờ</Text>
                     <Ionicons name='cloudy-outline' size={23} color={Colors.BOLD_BUTTON} />
-                    <Text>32&#176;</Text>
-                    <Text>50% mưa</Text>
+                    <Text style={{color: Colors.BOLD_BUTTON}}>32&#176;</Text>
+                    <Text style={{color: Colors.BOLD_BUTTON}}>50% mưa</Text>
                   </View>
                   <View style={styles.hoursWeatherItem}>
-                    <Text>20</Text>
+                    <Text style={{color: Colors.BOLD_BUTTON}}>20</Text>
                     <Ionicons name='cloudy-outline' size={23} color={Colors.BOLD_BUTTON} />
-                    <Text>32&#176;</Text>
-                    <Text>50% mưa</Text>
+                    <Text style={{color: Colors.BOLD_BUTTON}}>32&#176;</Text>
+                    <Text style={{color: Colors.BOLD_BUTTON}}>50% mưa</Text>
                   </View>
                   <View style={styles.hoursWeatherItem}>
-                    <Text>21</Text>
+                    <Text style={{color: Colors.BOLD_BUTTON}}>21</Text>
                     <Ionicons name='cloudy-outline' size={23} color={Colors.BOLD_BUTTON} />
-                    <Text>32&#176;</Text>
-                    <Text>50% mưa</Text>
+                    <Text style={{color: Colors.BOLD_BUTTON}}>32&#176;</Text>
+                    <Text style={{color: Colors.BOLD_BUTTON}}>50% mưa</Text>
                   </View>
                   <View style={styles.hoursWeatherItem}>
-                    <Text>22</Text>
+                    <Text style={{color: Colors.BOLD_BUTTON}}>22</Text>
                     <Ionicons name='cloudy-outline' size={23} color={Colors.BOLD_BUTTON} />
-                    <Text>32&#176;</Text>
-                    <Text>50% mưa</Text>
+                    <Text style={{color: Colors.BOLD_BUTTON}}>32&#176;</Text>
+                    <Text style={{color: Colors.BOLD_BUTTON}}>50% mưa</Text>
                   </View>
                 </ScrollView>
+              </View>
+              <View style={styles.daysWeather}>
+                <Text style={styles.title}>Thời tiết theo ngày</Text>
+                <View style={styles.daysView}>
+                  <View style={styles.daysWeatherItem}>
+                    <View style={styles.daysWeatherItemLeft}>
+                      <Text style={{color: Colors.BOLD_BUTTON}}>Hôm nay</Text>
+                      <Text style={{color: Colors.BOLD_BUTTON}}>32&#176;</Text>
+                    </View>
+                    <View style={styles.daysWeatherItemRight}>
+                      <Ionicons name='cloudy-outline' size={23} color={Colors.BOLD_BUTTON} />
+                      <Text style={{color: Colors.BOLD_BUTTON}}>50% mưa</Text>
+                    </View>
+                  </View>
+                  <View style={styles.daysWeatherItem}>
+                    <View style={styles.daysWeatherItemLeft}>
+                      <Text style={{color: Colors.BOLD_BUTTON}}>Hôm nay</Text>
+                      <Text style={{color: Colors.BOLD_BUTTON}}>32&#176;</Text>
+                    </View>
+                    <View style={styles.daysWeatherItemRight}>
+                      <Ionicons name='cloudy-outline' size={23} color={Colors.BOLD_BUTTON} />
+                      <Text style={{color: Colors.BOLD_BUTTON}}>50% mưa</Text>
+                    </View>
+                  </View>
+                  <View style={styles.daysWeatherItem}>
+                    <View style={styles.daysWeatherItemLeft}>
+                      <Text style={{color: Colors.BOLD_BUTTON}}>Hôm nay</Text>
+                      <Text style={{color: Colors.BOLD_BUTTON}}>32&#176;</Text>
+                    </View>
+                    <View style={styles.daysWeatherItemRight}>
+                      <Ionicons name='cloudy-outline' size={23} color={Colors.BOLD_BUTTON} />
+                      <Text style={{color: Colors.BOLD_BUTTON}}>50% mưa</Text>
+                    </View>
+                  </View>
+                  <View style={styles.daysWeatherItem}>
+                    <View style={styles.daysWeatherItemLeft}>
+                      <Text style={{color: Colors.BOLD_BUTTON}}>Hôm nay</Text>
+                      <Text style={{color: Colors.BOLD_BUTTON}}>32&#176;</Text>
+                    </View>
+                    <View style={styles.daysWeatherItemRight}>
+                      <Ionicons name='cloudy-outline' size={23} color={Colors.BOLD_BUTTON} />
+                      <Text style={{color: Colors.BOLD_BUTTON}}>50% mưa</Text>
+                    </View>
+                  </View>
+                </View>
               </View>
             </ScrollView>
         </View>
@@ -262,6 +310,7 @@ const styles = StyleSheet.create({
         borderRadius: 9999, 
         borderWidth: 4,
         borderColor: Colors.BOLD_BUTTON,
+        marginTop: 10,
         marginBottom: 10,
         justifyContent: 'center',
     },
@@ -274,6 +323,7 @@ const styles = StyleSheet.create({
         borderRadius: 9999, 
         borderWidth: 1,
         borderColor: Colors.BOLD_BACKGROUND,
+        marginTop: 10,
         marginBottom: 10,
         justifyContent: 'center',
     },
@@ -316,7 +366,7 @@ const styles = StyleSheet.create({
 
     smallText: {
       color: Colors.BOLD_BUTTON, 
-      fontSize: FontSize.SMALL, 
+      fontSize: 14 * screenScale, 
       fontWeight: '500',
     },
 
@@ -371,6 +421,12 @@ const styles = StyleSheet.create({
       color: Colors.BOLD_BUTTON,
     },
 
+    realTimeWeatherText: {
+      color: Colors.BOLD_BUTTON, 
+      fontSize: 20 * screenScale, 
+      fontWeight: '500',
+    },
+
     line: {
       backgroundColor: Colors.BOLD_BUTTON,
       width: '90%',
@@ -421,5 +477,50 @@ const styles = StyleSheet.create({
       padding: 5,
       margin: 15,
       marginLeft: 0,
+    },
+
+    daysWeather: {
+      backgroundColor: Colors.AVT_BACKGROUND,
+      margin: '5%',
+      borderWidth: 2,
+      borderRadius: 15,
+      borderColor: Colors.BOLD_BUTTON,
+      padding: '3%',
+      flexDirection: 'column',
+      alignItems: 'center',
+      shadowColor: 'black',
+      shadowOffset: {
+        width: 3,
+        height: 5,
+      },
+      shadowRadius: 5,
+      shadowOpacity: 1.0,
+    },
+
+    daysView: {
+      flexDirection: 'column',
+    },
+
+    daysWeatherItem: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      borderWidth: 1,
+      borderRadius: 15,
+      borderColor: Colors.BOLD_BUTTON,
+      padding: 5,
+      marginTop: 15,
+      marginBottom: 15,
+    },
+    daysWeatherItemLeft: {
+      width: '45%',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+
+    daysWeatherItemRight: {
+      width: '45%',
+      justifyContent: 'center',
+      alignItems: 'center',
     },
 });

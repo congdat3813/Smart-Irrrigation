@@ -1,7 +1,7 @@
 import { i18n, LocalizationKey } from "@/Localization";
 import React, {useEffect, useState} from "react";
 import { FontAwesome5, AntDesign, Entypo, MaterialCommunityIcons, MaterialIcons, Ionicons} from "@expo/vector-icons";
-import { ActivityIndicator, FlatList, SectionList, View, Text, StyleSheet, Image, Pressable, TouchableOpacity} from "react-native";
+import { ActivityIndicator, FlatList, SectionList, View, Text, StyleSheet, Image, Pressable, TouchableOpacity, Dimensions} from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { HStack, Spinner, Heading } from "native-base";
 import { User } from "@/Services";
@@ -14,6 +14,9 @@ import {HistoryScreenNavigatorProps} from "./HistoryContainer";
 import { SafeAreaView } from "react-native-safe-area-context";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import Moment from 'moment';
+
+const screenWidth = Dimensions.get('window').width;
+const screenScale = screenWidth / 375;
 
 export interface IHistoryProps {
     navigation: HistoryScreenNavigatorProps;
@@ -346,7 +349,7 @@ const styles = StyleSheet.create({
 
     regularText: {
       color: Colors.BOLD_BUTTON, 
-      fontSize: FontSize.REGULAR, 
+      fontSize: 17 * screenScale, 
       fontWeight: '500',
     },
 
@@ -388,6 +391,7 @@ const styles = StyleSheet.create({
         borderRadius: 9999, 
         borderWidth: 4,
         borderColor: Colors.BOLD_BUTTON,
+        marginTop: 10,
         marginBottom: 10,
         justifyContent: 'center',
     },
@@ -400,6 +404,7 @@ const styles = StyleSheet.create({
         borderRadius: 9999, 
         borderWidth: 1,
         borderColor: Colors.BOLD_BACKGROUND,
+        marginTop: 10,
         marginBottom: 10,
         justifyContent: 'center',
     },
@@ -426,7 +431,7 @@ const styles = StyleSheet.create({
 
     info: {
         width: '75%',
-        height: '100%',
+        height: '95%',
         flexDirection: 'column',
         justifyContent: 'space-between',
         alignItems: 'center',
@@ -434,7 +439,7 @@ const styles = StyleSheet.create({
 
     dateInfo: {
         flexDirection: 'row',
-        height: '13%',
+        height: '15%',
         width: '90%',
         justifyContent: 'space-between',
     },
@@ -462,7 +467,7 @@ const styles = StyleSheet.create({
     historyList: {
       backgroundColor: Colors.NORMAL_BACKGROUND,
       width: '90%',
-      height: '75%',
+      height: '78%',
       borderRadius: 15,
     },
 
@@ -489,7 +494,7 @@ const styles = StyleSheet.create({
 
     historyInfoContent: {
       color: Colors.BOLD_BUTTON, 
-      fontSize: FontSize.SMALL, 
+      fontSize: 16 * screenScale, 
       fontWeight: '500',
     },
 });
