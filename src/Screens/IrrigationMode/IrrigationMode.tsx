@@ -83,7 +83,7 @@ export const IrrigationMode= (props: {
         <View style={styles.active}>
         <Pressable onPress={() => props.onNavigate(RootScreens.IRRIGATIONMODE)} style={styles.activePress}>
           <View style={styles.cycle}>
-          <Entypo name="water" size={24} color={Colors.BOLD_BUTTON} style={styles.iconStyle}/>
+          <FontAwesome5 name="hand-holding-water" size={24} color="black" />
           </View>
           <View style={styles.intro}>
           <Text style={styles.activeContent}>Chế độ tưới</Text>
@@ -117,7 +117,7 @@ export const IrrigationMode= (props: {
                 setStatus(1);
             }} style={(status==1) ? styles.infoItemRenActive: styles.infoItemRenInactive}>
             <MaterialIcons name="autorenew" size={24} color={Colors.BOLD_BUTTON} style={styles.itemIcon} />
-            <Text style= {styles.itemTitle}>Tự động</Text>
+            <Text style= {styles.itemTitle}>Tự động 123</Text>
             <Text style= {styles.itemBody}>Tưới tiêu tự động theo mô hình thông minh</Text>
             </Pressable>
           </View>

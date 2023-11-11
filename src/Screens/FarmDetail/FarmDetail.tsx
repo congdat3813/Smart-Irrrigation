@@ -208,7 +208,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         backgroundColor: Colors.AVT_BACKGROUND, 
         borderRadius: 9999, 
-        borderWidth: 4,
+        borderWidth: 2,
         borderColor: Colors.BOLD_BUTTON,
         marginBottom: 10,
         justifyContent: 'center',
