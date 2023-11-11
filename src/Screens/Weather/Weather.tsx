@@ -3,7 +3,7 @@ import React, {useEffect, useState} from "react";
 import { FontAwesome5, AntDesign, Entypo, MaterialCommunityIcons, MaterialIcons, Ionicons} from "@expo/vector-icons";
 import { ActivityIndicator, FlatList, View, Text, StyleSheet, Image, Pressable} from "react-native";
 import { StatusBar } from "expo-status-bar";
-import { HStack, Spinner, Heading } from "native-base";
+import { HStack, Spinner, Heading, ScrollView } from "native-base";
 import { User } from "@/Services";
 import { BackButton } from "@/Components/backbutton";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -13,6 +13,7 @@ import {FontSize, Colors} from "@/Theme"
 import {WeatherScreenNavigatorProps} from "./WeatherContainer";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+
 export interface IWeatherProps {
     navigation: WeatherScreenNavigatorProps;
 }
@@ -21,7 +22,7 @@ export const Weather = (props: {
   onNavigate: (string: RootScreens) => void;
   }) => {
   return(
-    <SafeAreaView>
+    <SafeAreaView style={{backgroundColor: Colors.AVT_BACKGROUND,}}>
       <StatusBar style="auto" />
       <View style={styles.header}>
         <View style={styles.headerBar}>
@@ -30,7 +31,9 @@ export const Weather = (props: {
           </View>
         </View>
         <View style={styles.intro}>
-          <Text style={styles.title}>Cây Xoài</Text>
+          <View style={{left: 25, marginBottom: 15, }}>
+            <Text style={styles.title}>Cây Xoài</Text>
+          </View>
           <Text style={styles.normalText}>Ngày trồng: 22/08/2022</Text>
           <Text style={styles.normalText}>Địa chỉ: Đồng Nai</Text>
           <Text style={styles.normalText}>Đất: Đất thịt</Text>
@@ -94,17 +97,69 @@ export const Weather = (props: {
           </View>
         </View>
         <View style={styles.info}>
-            <View style={styles.liveWeather}>
-            
-            </View>
-            <Text style={styles.semiTitle}>Dự báo theo giờ</Text>
-            <View style={styles.weatherForecast}>
-
-            </View>
-            <Text style={styles.semiTitle}>Dự báo theo ngày</Text>
-            <View style={styles.weatherForecast}>
-
-            </View>
+            <ScrollView style={styles.scrollView}>
+              <View style={styles.realTimeWeather}>
+                <View style={styles.realTimeWeatherTop}>
+                  <View style={styles.realTimeWeatherIcon}>
+                    <Ionicons name='cloudy' size={80} color={Colors.BOLD_BUTTON}/>
+                  </View>
+                  <View style={styles.realTimeWeatherInfo}>
+                    <Text style={styles.realTempText}>32&#176;</Text>
+                    <Text style={styles.title} adjustsFontSizeToFit={true} numberOfLines={1}>Nhiều mây</Text>
+                  </View>
+                </View>
+                <View style={styles.line}></View>
+                <View style={styles.realTimeWeatherBottom}>
+                  <View style={styles.chanceOfRain}>
+                    <Text style={styles.smallText}  adjustsFontSizeToFit={true} numberOfLines={1}>Phần trăm mưa</Text>
+                    <View style={{flexDirection: 'row', alignItems: 'center', marginTop: 5,}}>
+                      <Ionicons name='rainy-outline' size={23} color={Colors.BOLD_BUTTON} />
+                      <View style={{marginLeft: 5,}}>
+                        <Text style={styles.smallText}>50%</Text>
+                      </View>
+                    </View>
+                  </View>
+                  <View style={styles.humidity}>
+                    <Text style={styles.smallText}>Độ ẩm</Text>
+                    <View style={{flexDirection: 'row', alignItems: 'center', marginTop: 5,}}>
+                      <Ionicons name='water-outline' size={23} color={Colors.BOLD_BUTTON} />
+                      <View style={{marginLeft: 5,}}>
+                        <Text style={styles.smallText}>50%</Text>
+                      </View>
+                    </View>
+                  </View>
+                </View>
+              </View>
+              <View style={styles.hoursWeather}>
+                <Text style={styles.title}>Thời tiết theo giờ</Text>
+                <ScrollView horizontal={true} style={styles.hoursScrollView}>
+                  <View style={styles.hoursWeatherItem}>
+                    <Text>Bây giờ</Text>
+                    <Ionicons name='cloudy-outline' size={23} color={Colors.BOLD_BUTTON} />
+                    <Text>32&#176;</Text>
+                    <Text>50% mưa</Text>
+                  </View>
+                  <View style={styles.hoursWeatherItem}>
+                    <Text>20</Text>
+                    <Ionicons name='cloudy-outline' size={23} color={Colors.BOLD_BUTTON} />
+                    <Text>32&#176;</Text>
+                    <Text>50% mưa</Text>
+                  </View>
+                  <View style={styles.hoursWeatherItem}>
+                    <Text>21</Text>
+                    <Ionicons name='cloudy-outline' size={23} color={Colors.BOLD_BUTTON} />
+                    <Text>32&#176;</Text>
+                    <Text>50% mưa</Text>
+                  </View>
+                  <View style={styles.hoursWeatherItem}>
+                    <Text>22</Text>
+                    <Ionicons name='cloudy-outline' size={23} color={Colors.BOLD_BUTTON} />
+                    <Text>32&#176;</Text>
+                    <Text>50% mưa</Text>
+                  </View>
+                </ScrollView>
+              </View>
+            </ScrollView>
         </View>
       </View>
     </SafeAreaView>
@@ -159,9 +214,6 @@ const styles = StyleSheet.create({
         color: Colors.BOLD_BUTTON, 
         fontSize: FontSize.TITLE, 
         fontWeight: '500',
-        left: 25,
-        marginBottom: 15,
-        marginTop: 15,
     },
 
     normalText: {
@@ -251,6 +303,7 @@ const styles = StyleSheet.create({
         height: '100%',
         flexDirection: 'column',
         justifyContent: 'center',
+        alignItems: 'center',
     },
 
     semiTitle: {
@@ -261,22 +314,112 @@ const styles = StyleSheet.create({
         marginTop: '5%',
     },
 
-    liveWeather: {
-        backgroundColor: Colors.BOLD_BACKGROUND,
-        width: '90%',
-        height: '23%',
-        top: '5%',
-        left: '5%',
-        marginBottom: '5%',
-        borderRadius: 15,
+    smallText: {
+      color: Colors.BOLD_BUTTON, 
+      fontSize: FontSize.SMALL, 
+      fontWeight: '500',
     },
 
-    weatherForecast: {
-        backgroundColor: Colors.BOLD_BACKGROUND,
-        width: '90%',
-        height: '23%',
-        left: '5%',
-        marginTop: '5%',
-        borderRadius: 15,
+    scrollView: {
+      backgroundColor: Colors.NORMAL_BACKGROUND,
+      width: '90%',
+      marginTop: '5%',
+      marginBottom: '5%',
+      borderRadius: 15,
+    },
+
+    realTimeWeather: {
+      backgroundColor: Colors.AVT_BACKGROUND,
+      margin: '5%',
+      borderWidth: 2,
+      borderRadius: 15,
+      borderColor: Colors.BOLD_BUTTON,
+      padding: '3%',
+      flexDirection: 'column',
+      alignItems: 'center',
+      shadowColor: 'black',
+      shadowOffset: {
+        width: 3,
+        height: 5,
+      },
+      shadowRadius: 5,
+      shadowOpacity: 1.0,
+    },
+
+    realTimeWeatherTop: {
+      flexDirection: 'row',
+    },
+
+    realTimeWeatherBottom: {
+      flexDirection: 'row',
+    },
+
+    realTimeWeatherIcon: {
+      width: '50%',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+
+    realTimeWeatherInfo: {
+      width: '50%',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+
+    realTempText: {
+      fontSize: 60,
+      color: Colors.BOLD_BUTTON,
+    },
+
+    line: {
+      backgroundColor: Colors.BOLD_BUTTON,
+      width: '90%',
+      height: 5,
+      marginTop: '5%',
+      marginBottom: '5%',
+      borderRadius: 15,
+    },
+
+    chanceOfRain: {
+      width: '50%',
+      alignItems: 'center',
+    },
+
+    humidity: {
+      width: '50%',
+      alignItems: 'center',
+    },
+
+    hoursWeather: {
+      backgroundColor: Colors.AVT_BACKGROUND,
+      margin: '5%',
+      borderWidth: 2,
+      borderRadius: 15,
+      borderColor: Colors.BOLD_BUTTON,
+      padding: '3%',
+      flexDirection: 'column',
+      alignItems: 'center',
+      shadowColor: 'black',
+      shadowOffset: {
+        width: 3,
+        height: 5,
+      },
+      shadowRadius: 5,
+      shadowOpacity: 1.0,
+    },
+
+    hoursScrollView: {
+      flexDirection: 'row',
+    },
+
+    hoursWeatherItem: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderWidth: 1,
+      borderRadius: 15,
+      borderColor: Colors.BOLD_BUTTON,
+      padding: 5,
+      margin: 15,
+      marginLeft: 0,
     },
 });

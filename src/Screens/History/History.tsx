@@ -107,8 +107,13 @@ export const History = (props: {
 
     let now = moment().format('LLLL');
 
+    let startDateMoment = moment(startDate);
+    let endDateMoment = moment(endDate);
+    let checked = DATA.filter(x => moment(x.day, "DD/MM/YYYY").isBetween(startDateMoment, endDateMoment, 'day', '[]') === true);
+    // console.log(checked);
+
   return(
-    <SafeAreaView>
+    <SafeAreaView style={{backgroundColor: Colors.AVT_BACKGROUND,}}>
       <StatusBar style="auto" />
       <View style={styles.header}>
         <View style={styles.headerBar}>
@@ -235,7 +240,7 @@ export const History = (props: {
                 </View>
                 <SectionList
                     stickySectionHeadersEnabled={false}
-                    sections={DATA}
+                    sections={checked}
                     renderItem={({item}) => (
                       <View style={styles.historyInfoList}>
                           <View style={styles.historyInfoItem}>
@@ -414,7 +419,7 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         alignSelf: 'center',
     },
-
+    
     iconStyle: {
         alignSelf: 'center',
     },
@@ -457,7 +462,7 @@ const styles = StyleSheet.create({
     historyList: {
       backgroundColor: Colors.NORMAL_BACKGROUND,
       width: '90%',
-      height: '80%',
+      height: '75%',
       borderRadius: 15,
     },
 
