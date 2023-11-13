@@ -1,7 +1,7 @@
 import { i18n, LocalizationKey } from "@/Localization";
 import React, { useState } from "react";
 import { FontAwesome5, AntDesign, Entypo, MaterialCommunityIcons, MaterialIcons, Ionicons, Feather } from "@expo/vector-icons";
-import { View, Text, StyleSheet, Image, Pressable, ScrollView, TouchableOpacity, Modal } from "react-native";
+import { View, Text, StyleSheet, Image, Pressable, ScrollView, TouchableOpacity, Modal, TextInput } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { HStack, Spinner, Heading, Center } from "native-base";
 import { User } from "@/Services";
@@ -48,9 +48,14 @@ export interface IModelProps {
 export const Model = (props: {
   onNavigate: (string: RootScreens) => void;
 }) => {
+  //Define State
   const [modelstatus, setModelStatus] = useState(1);
-  const [isConfirmationVisible, setConfirmationVisible] = useState(false);
-  const [isCreateScheduleVisible, setCreateScheduleVisible] = useState(false);
+  const [isConfirmationVisible, setConfirmationVisible] = useState(false); //Confirm delete UI
+  const [isCreateScheduleVisible, setCreateScheduleVisible] = useState(false); //Confirm create schedule UI
+  const [inputDate, setInputDate] = useState(''); // Select date in create schedule
+
+
+  //Handle create schedule
   const handleCreateSchedulePress = () => {
     setCreateScheduleVisible(true);
   };
@@ -64,7 +69,7 @@ export const Model = (props: {
     // Handle cancellation delete water schedule logic here
     setCreateScheduleVisible(false);
   };
-
+  //Handle delete water schdule
   const handlePress = () => {
     setConfirmationVisible(true);
   };
@@ -78,7 +83,10 @@ export const Model = (props: {
     // Handle cancellation delete water schedule logic here
     setConfirmationVisible(false);
   };
-
+  //Handle choose date
+  const handleInputChange = (text: string) => {
+    setInputDate(text);
+  };
   const data = [
     {
       date: '18/10/2023',
@@ -192,11 +200,52 @@ export const Model = (props: {
         </View>
         <ScrollView>
           <TouchableOpacity onPress={handleCreateSchedulePress}>
-            <View style={styles.addScheduleButton }>
+            <View style={styles.addScheduleButton}>
               <AntDesign name="pluscircleo" size={24} color="#3A6148" />
-              <Text style={styles.addScheduleText }>Thêm lịch trình</Text>
+              <Text style={styles.addScheduleText}>Thêm lịch trình</Text>
             </View>
           </TouchableOpacity>
+
+          {data.map((item,index) => {
+            return (
+              <View key={index} style={styles.modelItem}>
+                <View style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                }}>
+                  <Text style={{}}>{item['date']}</Text>
+                  <TouchableOpacity onPress={() => { }}>
+                    <AntDesign name="down" size={24} color="black" />
+                  </TouchableOpacity>
+                </View>
+                {
+                  <View>
+                    {item['sche'] && item['sche'].map((waterTime,index) => {
+                      return (
+                        <View key={index} style={{ flexDirection: 'row' }}>
+                          <View style={styles.dataItem}>
+                            <Text>
+                              Giờ tưới:{"\n"}
+                              {waterTime.waterHour}
+                            </Text>
+                            <Text>
+                              Thời gian tưới: {"\n"}
+                              {waterTime.duration}
+                            </Text>
+                          </View>
+                          <TouchableOpacity style={styles.deleteBtn} onPress={handlePress}>
+                            <Feather name="trash-2" size={24} color="black" />
+                          </TouchableOpacity>
+                        </View>
+
+                      );
+                    })}
+                  </View>
+                }
+              </View>
+            )
+          })}
+
           <Modal
             transparent={true}
             visible={isConfirmationVisible}
@@ -222,12 +271,51 @@ export const Model = (props: {
             visible={isCreateScheduleVisible}
             animationType="slide"
           >
-            <View style={styles.confirmUI}>
-              <Text style={styles.confirmTitle}>Thêm lịch trình</Text>
-              <View style={{
-                flexDirection: 'row', paddingHorizontal: 30,
-                justifyContent: 'space-between'
-              }}>
+            <View style={styles.createScheduleUI}>
+              <Text style={styles.confirmTitle}>Thêm lịch tưới</Text>
+              <View>
+                <Text style={styles.scheduleText}>Ngày:</Text>
+                <View style={styles.borderBoxField}>
+                  <TextInput
+                    style={styles.scheduleTextInput}
+                    placeholder="18/10/2023"
+                    onChangeText={handleInputChange}
+                    value={inputDate}
+                    keyboardType="numeric"
+                  />
+                </View>
+                <Text style={styles.scheduleText}>Ngày:</Text>
+                <View style={styles.borderBoxField}>
+                  <TextInput
+                    style={styles.scheduleTextInput}
+                    placeholder="00:00:00"
+                    onChangeText={handleInputChange}
+                    value={inputDate}
+                    keyboardType="numeric"
+                  />
+                </View>
+                <Text style={styles.scheduleText}>Ngày:</Text>
+                <View style={styles.borderBoxField}>
+                  <TextInput
+                    style={styles.scheduleTextInput}
+                    placeholder="00:00:00"
+                    onChangeText={handleInputChange}
+                    value={inputDate}
+                    keyboardType="numeric"
+                  />
+                </View>
+                <Text style={styles.scheduleText}>Ngày:</Text>
+                <View style={styles.borderBoxField}>
+                  <TextInput
+                    style={styles.scheduleTextInput}
+                    placeholder="00"
+                    onChangeText={handleInputChange}
+                    value={inputDate}
+                    keyboardType="numeric"
+                  />
+                </View>
+              </View>
+              <View style={styles.confirmButtonHolder}>
                 <TouchableOpacity style={styles.confirmButton} onPress={handleCreateScheduleConfirm}>
                   <Text style={styles.buttonText}>Xác nhận</Text>
                 </TouchableOpacity>
@@ -237,47 +325,6 @@ export const Model = (props: {
               </View>
             </View>
           </Modal>
-          {data.map((item) => {
-            return (
-              <View style={styles.modelItem}>
-                <View style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                }}>
-                  <Text style={{}}>{item['date']}</Text>
-                  <TouchableOpacity onPress={() => { }}>
-                    <AntDesign name="down" size={24} color="black" />
-                  </TouchableOpacity>
-                </View>
-                {
-                  <View>
-                    {item['sche'] && item['sche'].map((waterTime) => {
-                      return (
-                        <View style={{ flexDirection: 'row' }}>
-                          <View style={styles.dataItem}>
-                            <Text>
-                              Giờ tưới:{"\n"}
-                              {waterTime.waterHour}
-                            </Text>
-                            <Text>
-                              Thời gian tưới: {"\n"}
-                              {waterTime.duration}
-                            </Text>
-                          </View>
-                          <TouchableOpacity style={styles.deleteBtn} onPress={handlePress}>
-                            <Feather name="trash-2" size={24} color="black" />
-                          </TouchableOpacity>
-                        </View>
-
-                      );
-                    })}
-                  </View>
-                }
-              </View>
-            )
-          })}
-
-
         </ScrollView>
       </View>
     </SafeAreaView>
@@ -344,7 +391,12 @@ const styles = StyleSheet.create({
     left: 25,
     marginBottom: 15,
   },
-
+  scheduleText: {
+    color: Colors.BOLD_BUTTON,
+    fontSize: 14,
+    fontWeight: '500',
+    marginVertical: 10,
+  },
   leftNavigation: {
     width: '25%',
     height: '100%',
@@ -490,6 +542,13 @@ const styles = StyleSheet.create({
     marginHorizontal: 30,
     borderRadius: 16
   },
+  createScheduleUI: {
+    top: '20%',
+    padding: 30,
+    backgroundColor: 'white',
+    marginHorizontal: 30,
+    borderRadius: 16
+  },
   addScheduleButton: {
     width: '50%',
     flexDirection: 'row',
@@ -506,5 +565,20 @@ const styles = StyleSheet.create({
   addScheduleText: {
     color: Colors.BOLD_BUTTON,
     paddingLeft: 10
+  },
+  borderBoxField: {
+    borderWidth: 2,
+    borderColor: 'rgba(86, 103, 137, 0.26)',
+    borderRadius: 5,
+  },
+  scheduleTextInput: {
+    fontSize: 44,
+    alignSelf: 'center'
+  },
+  confirmButtonHolder: {
+    flexDirection: 'row', 
+    paddingHorizontal: 30,
+    justifyContent: 'space-between', 
+    marginTop: 20
   }
 });
