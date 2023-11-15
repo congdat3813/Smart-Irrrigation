@@ -12,10 +12,20 @@ import { RootScreens } from "..";
 import {FontSize, Colors} from "@/Theme"
 import {WeatherScreenNavigatorProps} from "./WeatherContainer";
 import { SafeAreaView } from "react-native-safe-area-context";
+import Moment from 'moment';
+import { useLazyGetWeatherQuery } from "@/Services";
 
 const screenWidth = Dimensions.get('window').width;
 const screenScale = screenWidth / 375;
 
+let daysOfWeek:{ [index: number] : {day: string} } = {};
+daysOfWeek[0] = {day: 'Chủ nhật'};
+daysOfWeek[1] = {day: 'Thứ hai'};
+daysOfWeek[2] = {day: 'Thứ ba'};
+daysOfWeek[3] = {day: 'Thứ tư'};
+daysOfWeek[4] = {day: 'Thứ năm'};
+daysOfWeek[5] = {day: 'Thứ sáu'};
+daysOfWeek[6] = {day: 'Thứ bảy'};
 
 export interface IWeatherProps {
     navigation: WeatherScreenNavigatorProps;
@@ -24,6 +34,54 @@ export interface IWeatherProps {
 export const Weather = (props: {
   onNavigate: (string: RootScreens) => void;
   }) => {
+  var moment = require('moment'); // require
+  moment().format(); 
+
+  const [weather, setWeather] = useState("Ho%20Chi%20Minh");
+
+  const [fetchOne, { data, isSuccess, isLoading, isFetching, error }] =
+    useLazyGetWeatherQuery();
+
+  useEffect(() => {
+    fetchOne(weather);
+  }, [fetchOne, weather]);
+  
+  let currentWeather = {
+    temp: data?.current.temp_c.toFixed(),
+    condition: {
+      text: data?.current.condition.text,
+      icon: data?.current.condition.icon,
+    },
+    precip: data?.current.precip_mm,
+    humidity: data?.current.humidity,
+    localTime: data?.location.localtime,
+  }
+
+  let daysWeather = [];
+
+  for (let i = 0; i < 7; i++) {
+    let item = {
+      date: data?.forecast.forecastday[i].date,
+      max_temp: data?.forecast.forecastday[i].day.maxtemp_c.toFixed(),
+      min_temp: data?.forecast.forecastday[i].day.mintemp_c.toFixed(),
+      chance_of_rain: data?.forecast.forecastday[i].day.daily_chance_of_rain,
+      icon: data?.forecast.forecastday[i].day.condition.icon,
+    }
+    daysWeather.push(item);
+  }
+  let hoursWeather = [];
+  let counter = 0;
+  for (let i = 0; i < 24; i++) {
+    if ((moment(currentWeather.localTime).hour() + i) === 24) {counter++};
+    let item = {
+      hour: String(((moment(currentWeather.localTime).hour() + i) % 24)).padStart(2,'0') + ':00',
+      icon: data?.forecast.forecastday[counter].hour[((moment(currentWeather.localTime).hour() + i) % 24)].condition.icon,
+      temp: data?.forecast.forecastday[counter].hour[((moment(currentWeather.localTime).hour() + i) % 24)].temp_c.toFixed(),
+      chance_of_rain: data?.forecast.forecastday[counter].hour[((moment(currentWeather.localTime).hour() + i) % 24)].chance_of_rain,
+    }
+    hoursWeather.push(item);
+  }
+  
   return(
     <SafeAreaView style={{backgroundColor: Colors.AVT_BACKGROUND,}}>
       <StatusBar style="auto" />
@@ -34,7 +92,7 @@ export const Weather = (props: {
           </View>
         </View>
         <View style={styles.intro}>
-          <View style={{left: 25, marginBottom: 15, }}>
+          <View style={{left: 25, marginBottom: 15, marginTop: 15,}}>
             <Text style={styles.title}>Cây Xoài</Text>
           </View>
           <Text style={styles.normalText}>Ngày trồng: 22/08/2022</Text>
@@ -43,7 +101,7 @@ export const Weather = (props: {
           <Text style={styles.normalText}>Diện tích: 2000 m2</Text>
         </View>
         <View style={styles.avt}>
-          <Image source={ require("../../../assets/Intersect.png")} />
+          <Image source={ require("../../../assets/Intersect.png")} style={{height: 300, width: 250}}/>
         </View>
       </View>
       <View style={styles.body}>
@@ -104,21 +162,23 @@ export const Weather = (props: {
               <View style={styles.realTimeWeather}>
                 <View style={styles.realTimeWeatherTop}>
                   <View style={styles.realTimeWeatherIcon}>
-                    <Ionicons name='cloudy' size={80} color={Colors.BOLD_BUTTON}/>
+                    <Image source={{
+                      uri: `https:${currentWeather.condition.icon}`
+                    }} style={{width: 80, height: 80,}} />
                   </View>
                   <View style={styles.realTimeWeatherInfo}>
-                    <Text style={styles.realTempText}>32&#176;</Text>
-                    <Text style={styles.realTimeWeatherText}>Nhiều mây</Text>
+                    <Text style={styles.realTempText}>{currentWeather.temp}&#176;</Text>
+                    <Text style={styles.realTimeWeatherText}>{currentWeather.condition.text}</Text>
                   </View>
                 </View>
                 <View style={styles.line}></View>
                 <View style={styles.realTimeWeatherBottom}>
                   <View style={styles.chanceOfRain}>
-                    <Text style={styles.smallText}>Phần trăm mưa</Text>
+                    <Text style={styles.smallText}>Lượng mưa</Text>
                     <View style={{flexDirection: 'row', alignItems: 'center', marginTop: 5,}}>
                       <Ionicons name='rainy-outline' size={23} color={Colors.BOLD_BUTTON} />
                       <View style={{marginLeft: 5,}}>
-                        <Text style={styles.smallText}>50%</Text>
+                        <Text style={styles.smallText}>{currentWeather.precip} mm</Text>
                       </View>
                     </View>
                   </View>
@@ -127,7 +187,7 @@ export const Weather = (props: {
                     <View style={{flexDirection: 'row', alignItems: 'center', marginTop: 5,}}>
                       <Ionicons name='water-outline' size={23} color={Colors.BOLD_BUTTON} />
                       <View style={{marginLeft: 5,}}>
-                        <Text style={styles.smallText}>50%</Text>
+                        <Text style={styles.smallText}>{currentWeather.humidity} %</Text>
                       </View>
                     </View>
                   </View>
@@ -138,27 +198,195 @@ export const Weather = (props: {
                 <ScrollView horizontal={true} style={styles.hoursScrollView}>
                   <View style={styles.hoursWeatherItem}>
                     <Text style={{color: Colors.BOLD_BUTTON}}>Bây giờ</Text>
-                    <Ionicons name='cloudy-outline' size={23} color={Colors.BOLD_BUTTON} />
-                    <Text style={{color: Colors.BOLD_BUTTON}}>32&#176;</Text>
-                    <Text style={{color: Colors.BOLD_BUTTON}}>50% mưa</Text>
+                    <Image source={{
+                      uri: `https:${hoursWeather[0].icon}`
+                    }} style={{width: 30, height: 30,}} />
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[0].temp}&#176;</Text>
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[0].chance_of_rain}% mưa</Text>
                   </View>
                   <View style={styles.hoursWeatherItem}>
-                    <Text style={{color: Colors.BOLD_BUTTON}}>20</Text>
-                    <Ionicons name='cloudy-outline' size={23} color={Colors.BOLD_BUTTON} />
-                    <Text style={{color: Colors.BOLD_BUTTON}}>32&#176;</Text>
-                    <Text style={{color: Colors.BOLD_BUTTON}}>50% mưa</Text>
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[1].hour}</Text>
+                    <Image source={{
+                      uri: `https:${hoursWeather[1].icon}`
+                    }} style={{width: 30, height: 30,}} />
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[1].temp}&#176;</Text>
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[1].chance_of_rain}% mưa</Text>
                   </View>
                   <View style={styles.hoursWeatherItem}>
-                    <Text style={{color: Colors.BOLD_BUTTON}}>21</Text>
-                    <Ionicons name='cloudy-outline' size={23} color={Colors.BOLD_BUTTON} />
-                    <Text style={{color: Colors.BOLD_BUTTON}}>32&#176;</Text>
-                    <Text style={{color: Colors.BOLD_BUTTON}}>50% mưa</Text>
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[2].hour}</Text>
+                    <Image source={{
+                      uri: `https:${hoursWeather[2].icon}`
+                    }} style={{width: 30, height: 30,}} />
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[2].temp}&#176;</Text>
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[2].chance_of_rain}% mưa</Text>
                   </View>
                   <View style={styles.hoursWeatherItem}>
-                    <Text style={{color: Colors.BOLD_BUTTON}}>22</Text>
-                    <Ionicons name='cloudy-outline' size={23} color={Colors.BOLD_BUTTON} />
-                    <Text style={{color: Colors.BOLD_BUTTON}}>32&#176;</Text>
-                    <Text style={{color: Colors.BOLD_BUTTON}}>50% mưa</Text>
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[3].hour}</Text>
+                    <Image source={{
+                      uri: `https:${hoursWeather[3].icon}`
+                    }} style={{width: 30, height: 30,}} />
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[3].temp}&#176;</Text>
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[3].chance_of_rain}% mưa</Text>
+                  </View>
+                  <View style={styles.hoursWeatherItem}>
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[4].hour}</Text>
+                    <Image source={{
+                      uri: `https:${hoursWeather[4].icon}`
+                    }} style={{width: 30, height: 30,}} />
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[4].temp}&#176;</Text>
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[4].chance_of_rain}% mưa</Text>
+                  </View>
+                  <View style={styles.hoursWeatherItem}>
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[5].hour}</Text>
+                    <Image source={{
+                      uri: `https:${hoursWeather[5].icon}`
+                    }} style={{width: 30, height: 30,}} />
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[5].temp}&#176;</Text>
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[5].chance_of_rain}% mưa</Text>
+                  </View>
+                  <View style={styles.hoursWeatherItem}>
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[6].hour}</Text>
+                    <Image source={{
+                      uri: `https:${hoursWeather[6].icon}`
+                    }} style={{width: 30, height: 30,}} />
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[6].temp}&#176;</Text>
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[6].chance_of_rain}% mưa</Text>
+                  </View>
+                  <View style={styles.hoursWeatherItem}>
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[7].hour}</Text>
+                    <Image source={{
+                      uri: `https:${hoursWeather[7].icon}`
+                    }} style={{width: 30, height: 30,}} />
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[7].temp}&#176;</Text>
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[7].chance_of_rain}% mưa</Text>
+                  </View>
+                  <View style={styles.hoursWeatherItem}>
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[8].hour}</Text>
+                    <Image source={{
+                      uri: `https:${hoursWeather[8].icon}`
+                    }} style={{width: 30, height: 30,}} />
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[8].temp}&#176;</Text>
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[8].chance_of_rain}% mưa</Text>
+                  </View>
+                  <View style={styles.hoursWeatherItem}>
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[9].hour}</Text>
+                    <Image source={{
+                      uri: `https:${hoursWeather[9].icon}`
+                    }} style={{width: 30, height: 30,}} />
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[9].temp}&#176;</Text>
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[9].chance_of_rain}% mưa</Text>
+                  </View>
+                  <View style={styles.hoursWeatherItem}>
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[10].hour}</Text>
+                    <Image source={{
+                      uri: `https:${hoursWeather[10].icon}`
+                    }} style={{width: 30, height: 30,}} />
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[10].temp}&#176;</Text>
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[10].chance_of_rain}% mưa</Text>
+                  </View>
+                  <View style={styles.hoursWeatherItem}>
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[11].hour}</Text>
+                    <Image source={{
+                      uri: `https:${hoursWeather[11].icon}`
+                    }} style={{width: 30, height: 30,}} />
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[11].temp}&#176;</Text>
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[11].chance_of_rain}% mưa</Text>
+                  </View>
+                  <View style={styles.hoursWeatherItem}>
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[12].hour}</Text>
+                    <Image source={{
+                      uri: `https:${hoursWeather[12].icon}`
+                    }} style={{width: 30, height: 30,}} />
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[12].temp}&#176;</Text>
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[12].chance_of_rain}% mưa</Text>
+                  </View>
+                  <View style={styles.hoursWeatherItem}>
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[13].hour}</Text>
+                    <Image source={{
+                      uri: `https:${hoursWeather[13].icon}`
+                    }} style={{width: 30, height: 30,}} />
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[13].temp}&#176;</Text>
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[13].chance_of_rain}% mưa</Text>
+                  </View>
+                  <View style={styles.hoursWeatherItem}>
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[14].hour}</Text>
+                    <Image source={{
+                      uri: `https:${hoursWeather[14].icon}`
+                    }} style={{width: 30, height: 30,}} />
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[14].temp}&#176;</Text>
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[14].chance_of_rain}% mưa</Text>
+                  </View>
+                  <View style={styles.hoursWeatherItem}>
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[15].hour}</Text>
+                    <Image source={{
+                      uri: `https:${hoursWeather[15].icon}`
+                    }} style={{width: 30, height: 30,}} />
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[15].temp}&#176;</Text>
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[15].chance_of_rain}% mưa</Text>
+                  </View>
+                  <View style={styles.hoursWeatherItem}>
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[16].hour}</Text>
+                    <Image source={{
+                      uri: `https:${hoursWeather[16].icon}`
+                    }} style={{width: 30, height: 30,}} />
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[16].temp}&#176;</Text>
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[16].chance_of_rain}% mưa</Text>
+                  </View>
+                  <View style={styles.hoursWeatherItem}>
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[17].hour}</Text>
+                    <Image source={{
+                      uri: `https:${hoursWeather[17].icon}`
+                    }} style={{width: 30, height: 30,}} />
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[17].temp}&#176;</Text>
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[17].chance_of_rain}% mưa</Text>
+                  </View>
+                  <View style={styles.hoursWeatherItem}>
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[18].hour}</Text>
+                    <Image source={{
+                      uri: `https:${hoursWeather[18].icon}`
+                    }} style={{width: 30, height: 30,}} />
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[18].temp}&#176;</Text>
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[18].chance_of_rain}% mưa</Text>
+                  </View>
+                  <View style={styles.hoursWeatherItem}>
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[19].hour}</Text>
+                    <Image source={{
+                      uri: `https:${hoursWeather[19].icon}`
+                    }} style={{width: 30, height: 30,}} />
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[19].temp}&#176;</Text>
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[19].chance_of_rain}% mưa</Text>
+                  </View>
+                  <View style={styles.hoursWeatherItem}>
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[20].hour}</Text>
+                    <Image source={{
+                      uri: `https:${hoursWeather[20].icon}`
+                    }} style={{width: 30, height: 30,}} />
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[20].temp}&#176;</Text>
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[20].chance_of_rain}% mưa</Text>
+                  </View>
+                  <View style={styles.hoursWeatherItem}>
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[21].hour}</Text>
+                    <Image source={{
+                      uri: `https:${hoursWeather[21].icon}`
+                    }} style={{width: 30, height: 30,}} />
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[21].temp}&#176;</Text>
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[21].chance_of_rain}% mưa</Text>
+                  </View>
+                  <View style={styles.hoursWeatherItem}>
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[22].hour}</Text>
+                    <Image source={{
+                      uri: `https:${hoursWeather[22].icon}`
+                    }} style={{width: 30, height: 30,}} />
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[22].temp}&#176;</Text>
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[22].chance_of_rain}% mưa</Text>
+                  </View>
+                  <View style={styles.hoursWeatherItem}>
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[23].hour}</Text>
+                    <Image source={{
+                      uri: `https:${hoursWeather[23].icon}`
+                    }} style={{width: 30, height: 30,}} />
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[23].temp}&#176;</Text>
+                    <Text style={{color: Colors.BOLD_BUTTON}}>{hoursWeather[23].chance_of_rain}% mưa</Text>
                   </View>
                 </ScrollView>
               </View>
@@ -168,41 +396,85 @@ export const Weather = (props: {
                   <View style={styles.daysWeatherItem}>
                     <View style={styles.daysWeatherItemLeft}>
                       <Text style={{color: Colors.BOLD_BUTTON}}>Hôm nay</Text>
-                      <Text style={{color: Colors.BOLD_BUTTON}}>32&#176;</Text>
+                      <Text style={{color: Colors.BOLD_BUTTON}}>{daysWeather[0].min_temp}&#176;/{daysWeather[0].max_temp}&#176;</Text>
                     </View>
                     <View style={styles.daysWeatherItemRight}>
-                      <Ionicons name='cloudy-outline' size={23} color={Colors.BOLD_BUTTON} />
-                      <Text style={{color: Colors.BOLD_BUTTON}}>50% mưa</Text>
+                      <Image source={{
+                        uri: `https:${daysWeather[0].icon}`
+                      }} style={{width: 30, height: 30,}} />
+                      <Text style={{color: Colors.BOLD_BUTTON}}>{daysWeather[0].chance_of_rain}% mưa</Text>
                     </View>
                   </View>
                   <View style={styles.daysWeatherItem}>
                     <View style={styles.daysWeatherItemLeft}>
-                      <Text style={{color: Colors.BOLD_BUTTON}}>Hôm nay</Text>
-                      <Text style={{color: Colors.BOLD_BUTTON}}>32&#176;</Text>
+                      <Text style={{color: Colors.BOLD_BUTTON}}>{daysOfWeek[moment().day() + 1].day}</Text>
+                      <Text style={{color: Colors.BOLD_BUTTON}}>{daysWeather[1].min_temp}&#176;/{daysWeather[1].max_temp}&#176;</Text>
                     </View>
                     <View style={styles.daysWeatherItemRight}>
-                      <Ionicons name='cloudy-outline' size={23} color={Colors.BOLD_BUTTON} />
-                      <Text style={{color: Colors.BOLD_BUTTON}}>50% mưa</Text>
+                      <Image source={{
+                          uri: `https:${daysWeather[1].icon}`
+                        }} style={{width: 30, height: 30,}} />
+                      <Text style={{color: Colors.BOLD_BUTTON}}>{daysWeather[1].chance_of_rain}% mưa</Text>
                     </View>
                   </View>
                   <View style={styles.daysWeatherItem}>
                     <View style={styles.daysWeatherItemLeft}>
-                      <Text style={{color: Colors.BOLD_BUTTON}}>Hôm nay</Text>
-                      <Text style={{color: Colors.BOLD_BUTTON}}>32&#176;</Text>
+                      <Text style={{color: Colors.BOLD_BUTTON}}>{daysOfWeek[(moment().day() + 2) % 7].day}</Text>
+                      <Text style={{color: Colors.BOLD_BUTTON}}>{daysWeather[2].min_temp}&#176;/{daysWeather[2].max_temp}&#176;</Text>
                     </View>
                     <View style={styles.daysWeatherItemRight}>
-                      <Ionicons name='cloudy-outline' size={23} color={Colors.BOLD_BUTTON} />
-                      <Text style={{color: Colors.BOLD_BUTTON}}>50% mưa</Text>
+                      <Image source={{
+                          uri: `https:${daysWeather[2].icon}`
+                        }} style={{width: 30, height: 30,}} />
+                      <Text style={{color: Colors.BOLD_BUTTON}}>{daysWeather[2].chance_of_rain}% mưa</Text>
                     </View>
                   </View>
                   <View style={styles.daysWeatherItem}>
                     <View style={styles.daysWeatherItemLeft}>
-                      <Text style={{color: Colors.BOLD_BUTTON}}>Hôm nay</Text>
-                      <Text style={{color: Colors.BOLD_BUTTON}}>32&#176;</Text>
+                      <Text style={{color: Colors.BOLD_BUTTON}}>{daysOfWeek[(moment().day() + 3) % 7].day}</Text>
+                      <Text style={{color: Colors.BOLD_BUTTON}}>{daysWeather[3].min_temp}&#176;/{daysWeather[3].max_temp}&#176;</Text>
                     </View>
                     <View style={styles.daysWeatherItemRight}>
-                      <Ionicons name='cloudy-outline' size={23} color={Colors.BOLD_BUTTON} />
-                      <Text style={{color: Colors.BOLD_BUTTON}}>50% mưa</Text>
+                      <Image source={{
+                          uri: `https:${daysWeather[3].icon}`
+                        }} style={{width: 30, height: 30,}} />
+                      <Text style={{color: Colors.BOLD_BUTTON}}>{daysWeather[3].chance_of_rain}% mưa</Text>
+                    </View>
+                  </View>
+                  <View style={styles.daysWeatherItem}>
+                    <View style={styles.daysWeatherItemLeft}>
+                      <Text style={{color: Colors.BOLD_BUTTON}}>{daysOfWeek[(moment().day() + 4) % 7].day}</Text>
+                      <Text style={{color: Colors.BOLD_BUTTON}}>{daysWeather[4].min_temp}&#176;/{daysWeather[4].max_temp}&#176;</Text>
+                    </View>
+                    <View style={styles.daysWeatherItemRight}>
+                      <Image source={{
+                          uri: `https:${daysWeather[4].icon}`
+                        }} style={{width: 30, height: 30,}} />
+                      <Text style={{color: Colors.BOLD_BUTTON}}>{daysWeather[4].chance_of_rain}% mưa</Text>
+                    </View>
+                  </View>
+                  <View style={styles.daysWeatherItem}>
+                    <View style={styles.daysWeatherItemLeft}>
+                      <Text style={{color: Colors.BOLD_BUTTON}}>{daysOfWeek[(moment().day() + 5) % 7].day}</Text>
+                      <Text style={{color: Colors.BOLD_BUTTON}}>{daysWeather[5].min_temp}&#176;/{daysWeather[5].max_temp}&#176;</Text>
+                    </View>
+                    <View style={styles.daysWeatherItemRight}>
+                      <Image source={{
+                          uri: `https:${daysWeather[5].icon}`
+                        }} style={{width: 30, height: 30,}} />
+                      <Text style={{color: Colors.BOLD_BUTTON}}>{daysWeather[5].chance_of_rain}% mưa</Text>
+                    </View>
+                  </View>
+                  <View style={styles.daysWeatherItem}>
+                    <View style={styles.daysWeatherItemLeft}>
+                      <Text style={{color: Colors.BOLD_BUTTON}}>{daysOfWeek[(moment().day() + 6) % 7].day}</Text>
+                      <Text style={{color: Colors.BOLD_BUTTON}}>{daysWeather[6].min_temp}&#176;/{daysWeather[6].max_temp}&#176;</Text>
+                    </View>
+                    <View style={styles.daysWeatherItemRight}>
+                      <Image source={{
+                          uri: `https:${daysWeather[6].icon}`
+                        }} style={{width: 30, height: 30,}} />
+                      <Text style={{color: Colors.BOLD_BUTTON}}>{daysWeather[6].chance_of_rain}% mưa</Text>
                     </View>
                   </View>
                 </View>
@@ -417,7 +689,7 @@ const styles = StyleSheet.create({
     },
 
     realTempText: {
-      fontSize: 60,
+      fontSize: 45 * screenScale,
       color: Colors.BOLD_BUTTON,
     },
 
@@ -477,6 +749,7 @@ const styles = StyleSheet.create({
       padding: 5,
       margin: 15,
       marginLeft: 0,
+      minWidth: 80,
     },
 
     daysWeather: {
@@ -499,6 +772,7 @@ const styles = StyleSheet.create({
 
     daysView: {
       flexDirection: 'column',
+      marginTop: 15,
     },
 
     daysWeatherItem: {
@@ -509,7 +783,6 @@ const styles = StyleSheet.create({
       borderRadius: 15,
       borderColor: Colors.BOLD_BUTTON,
       padding: 5,
-      marginTop: 15,
       marginBottom: 15,
     },
     daysWeatherItemLeft: {

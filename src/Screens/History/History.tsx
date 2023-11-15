@@ -125,14 +125,16 @@ export const History = (props: {
           </View>
         </View>
         <View style={styles.intro}>
-          <Text style={styles.title}>Cây Xoài</Text>
+          <View style={{left: 25, marginBottom: 15, marginTop: 15,}}>
+            <Text style={styles.title}>Cây Xoài</Text>
+          </View>
           <Text style={styles.normalText}>Ngày trồng: 22/08/2022</Text>
           <Text style={styles.normalText}>Địa chỉ: Đồng Nai</Text>
           <Text style={styles.normalText}>Đất: Đất thịt</Text>
           <Text style={styles.normalText}>Diện tích: 2000 m2</Text>
         </View>
         <View style={styles.avt}>
-          <Image source={ require("../../../assets/Intersect.png")} />
+          <Image source={ require("../../../assets/Intersect.png")} style={{height: 300, width: 250}}/>
         </View>
       </View>
       <View style={styles.body}>
@@ -326,9 +328,9 @@ const styles = StyleSheet.create({
         color: Colors.BOLD_BUTTON, 
         fontSize: FontSize.TITLE, 
         fontWeight: '500',
-        left: 25,
-        marginBottom: 15,
-        marginTop: 15,
+        // left: 25,
+        // marginBottom: 15,
+        // marginTop: 15,
     },
 
     semiTitle: {
