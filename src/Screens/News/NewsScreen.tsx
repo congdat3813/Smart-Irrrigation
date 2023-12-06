@@ -15,11 +15,12 @@ import { Container } from "../../Components/shared";
 import BigText from "@/Components/texts/BigText";
 import logo from "../../../assets/bg/logocay.png";
 import { AntDesign } from '@expo/vector-icons';
-import { Column, Flex, View } from "native-base";
+import { Button, Column, Flex, View } from "native-base";
 import { i18n, LocalizationKey } from "@/Localization";
 import { Dimensions} from "react-native";
 import { NewsScreenNavigatorProps } from "./NewsContainer";
 import { RootScreens } from "..";
+import { Image2 } from "styled-icons/evaicons-solid";
 
 
 const screenWidth = Dimensions.get('window').width;
@@ -36,6 +37,12 @@ const images = [
   require("../../../assets/img/News/image7.png"),
   require("../../../assets/img/News/image7.png"),
 ];
+
+const images2 = [
+  require("../../../assets/img/News/image8.png"),
+  require("../../../assets/img/News/image8.png"),
+];
+
 
 const NewsContainer = styled(Container)`
   justify-content: flex-start;
@@ -61,43 +68,7 @@ const LogoContainer = styled.Image`
   resize-mode: contain;
 `;
 
-const ItemContainer = styled.ScrollView`
-  height: 2000;
-  width: 4000;
-  margin-top: 2px;
-  display: flex;
-  overflow: hidden;
-`;
 
-const ButtonContainer = styled.ScrollView`
-    display: flex;
-    flex-direction: row;
-    gap : 8px;
-`;
-
-const CustomButton = styled(TouchableOpacity)`
-  flex: 1 1 30%;
-  height: 0%;
-  width: 100px;
-  align-items: center;
-  justify-content: center;
-  background-color: #0D986A;
-  margin: 5px;
-`;
-
-const ButtonText = styled.Text`
-  color: white;
-  font-size: 16px;
-`;
-
-const ImageContainer = styled.View`
-  width: 100%;
-  height: 100%;
-  margin-top: 5px;
-  display: flex;
-  flex-direction: row;
-  overflow: hidden;
-`;
 
 export const NewsScreen = (props: {
   onNavigate: (string: RootScreens) => void;
@@ -127,47 +98,71 @@ export const NewsScreen = (props: {
             <Text style={{color: "#0D986A", fontFamily: "Actor", fontSize: 18, fontStyle: "normal" }}> Tin mới</Text>
         </View>
         <Main>
-          {/* <ItemContainer>
-            <ButtonContainer>
-              <CustomButton>
-                <ButtonText>Weather</ButtonText>
-              </CustomButton>
-              <CustomButton>
-                <ButtonText>News</ButtonText>
-              </CustomButton>
-              <CustomButton>
-                <ButtonText>Harvest Season</ButtonText>
-              </CustomButton>
-              <CustomButton>
-                <ButtonText>Days</ButtonText>
-              </CustomButton>
-              <CustomButton>
-                <ButtonText>Month</ButtonText>
-              </CustomButton>
-            </ButtonContainer>
-          </ItemContainer> */}
-          <ScrollView horizontal={true}>
-            <Pressable>
-              <View >
-                <Text>Tin tức</Text>
-              </View>
-            </Pressable>
-            <Pressable>
-              <View>
-                <Text>Mùa vụ</Text>
-              </View>
-            </Pressable>
-            <Pressable>
-              <View>
-                <Text>Thời tiết</Text>
-              </View>
-            </Pressable>
-            <Pressable>
-              <View>
-                <Text>Phân bón</Text>
-              </View>
-            </Pressable>
-          </ScrollView>
+            <ScrollView>
+              <ScrollView horizontal={true}>
+                {images.map((image, index) => (
+                  <View
+                    key={index}
+                    style={{
+                      width: 300 * screenScale,
+                      height: 200 * screenScale,
+                      marginHorizontal: 10,
+                      borderRadius: 10,
+                      overflow: "hidden",
+                    }}
+                  >
+                    <Image
+                      source={image}
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        resizeMode: "cover",
+                      }}
+                    />
+                  </View>
+                ))}
+              </ScrollView>
+
+              <ScrollView horizontal={true}>
+                  {/* add 5 button */}
+                  <Button style={styles.buttonView}>
+                    <Text style={styles.buttonText}> Tin tức</Text>
+                  </Button>
+                  <Button style={styles.buttonView}>
+                    <Text style={styles.buttonText}> Mùa vụ</Text>
+                  </Button>
+                  <Button style={styles.buttonView}>
+                    <Text style={styles.buttonText}> Thời tiết</Text>
+                  </Button>
+                  <Button style={styles.buttonView}>
+                    <Text style={styles.buttonText}> Phân bón</Text>
+                  </Button>
+              </ScrollView>
+
+
+              <ScrollView>
+                {images2.map((images, index) => (
+                  <View
+                    key={index}
+                    style={{
+                      width: 300 * screenScale,
+                      height: 200 * screenScale,
+                      marginHorizontal: 10,
+                      borderRadius: 10,
+                      overflow: "hidden",
+                    }}
+                  >
+                    <Image
+                      source={images}
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                      }}
+                    />
+                  </View>
+                ))}
+              </ScrollView>        
+            </ScrollView>
         </Main>
       </NewsContainer>
     </SafeAreaView>
@@ -175,7 +170,28 @@ export const NewsScreen = (props: {
 };
 
 const styles = StyleSheet.create({
-  
+    buttonView: {
+      width: 100,
+      height: 40,
+      paddingLeft: 16,
+      paddingRight: 16,
+      paddingTop: 8,
+      paddingBottom: 8,
+      backgroundColor: "white",
+      borderRadius: 16,
+      border: "1px #E9F3ED solid",
+      justifyContent: 'center', 
+      alignItems: 'center',
+      gap: 8,
+    },
+    buttonText: {
+      color: "#2E0505",
+      fontFamily: "Nunito",
+      fontSize: 12,
+      fontWeight: '600',
+      wordWrap: 'break-word',
+    },
+
 });
 
 export default NewsScreen;
