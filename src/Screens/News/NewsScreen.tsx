@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FunctionComponent } from "react";
 import {
   StyleSheet,
   Text,
@@ -14,35 +14,34 @@ import styled from "styled-components/native";
 import { Container } from "../../Components/shared";
 import BigText from "@/Components/texts/BigText";
 import logo from "../../../assets/bg/logocay.png";
-import { AntDesign } from '@expo/vector-icons';
-import { Button, Column, Flex, View } from "native-base";
-import { i18n, LocalizationKey } from "@/Localization";
+import { Button, Center, View } from "native-base";
 import { Dimensions} from "react-native";
-import { NewsScreenNavigatorProps } from "./NewsContainer";
-import { RootScreens } from "..";
-import { Image2 } from "styled-icons/evaicons-solid";
 
 
 const screenWidth = Dimensions.get('window').width;
 const screenScale = screenWidth / 375;
 
-export interface NewsProps {
-  navigation: NewsScreenNavigatorProps;
-}
-
 const images = [
-  require("../../../assets/img/News/image7.png"),
-  require("../../../assets/img/News/image7.png"),
-  require("../../../assets/img/News/image7.png"),
-  require("../../../assets/img/News/image7.png"),
-  require("../../../assets/img/News/image7.png"),
+  {
+    source: require("../../../assets/img/News/image7.png"),
+    title: "img1",
+  },
+  {
+    source: require("../../../assets/img/News/image7.png"),
+    title: "img2",
+  },
 ];
 
 const images2 = [
-  require("../../../assets/img/News/image8.png"),
-  require("../../../assets/img/News/image8.png"),
+  {
+    source: require("../../../assets/img/News/image7.png"),
+    title: "ảnh dưới 1",
+  },
+  {
+    source: require("../../../assets/img/News/image7.png"),
+    title: "ảnh dưới 2",
+  },
 ];
-
 
 const NewsContainer = styled(Container)`
   justify-content: flex-start;
@@ -68,14 +67,9 @@ const LogoContainer = styled.Image`
   resize-mode: contain;
 `;
 
-
-
-export const NewsScreen = (props: {
-  onNavigate: (string: RootScreens) => void;
-}) => {
-  const [text, onChangeText] = React.useState('');
-
+const NewsScreen: FunctionComponent = () => {
   return (
+
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
       <NewsContainer>
         <Header>
@@ -99,29 +93,38 @@ export const NewsScreen = (props: {
         </View>
         <Main>
             <ScrollView>
-              <ScrollView horizontal={true}>
-                {images.map((image, index) => (
-                  <View
-                    key={index}
+            <ScrollView horizontal={true}>
+              {images.map((image, index) => (
+                <View
+                  key={index}
+                  style={{
+                    width: 300 * screenScale,
+                    height: 200 * screenScale,
+                    marginHorizontal: 10,
+                    borderRadius: 10,
+                    overflow: 'hidden',
+                  }}
+                >
+                  <Image
+                    source={image.source}
                     style={{
-                      width: 300 * screenScale,
-                      height: 200 * screenScale,
-                      marginHorizontal: 10,
-                      borderRadius: 10,
-                      overflow: "hidden",
+                      width: '100%',
+                      height: '80%', // Adjust as needed
+                      resizeMode: "stretch"
+                    }}
+                  />
+                  <Text
+                    style={{
+                      textAlign: 'center',
+                      marginTop: 5,
+                      fontSize: 16, // Adjust as needed
                     }}
                   >
-                    <Image
-                      source={image}
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        resizeMode: "cover",
-                      }}
-                    />
-                  </View>
-                ))}
-              </ScrollView>
+                    {image.title}
+                  </Text>
+                </View>
+              ))}
+            </ScrollView>
 
               <ScrollView horizontal={true}>
                   {/* add 5 button */}
@@ -141,31 +144,44 @@ export const NewsScreen = (props: {
 
 
               <ScrollView>
-                {images2.map((images, index) => (
+                {images2.map((image, index) => (
                   <View
                     key={index}
                     style={{
-                      width: 300 * screenScale,
+                      width: 345 * screenScale,
                       height: 200 * screenScale,
-                      marginHorizontal: 10,
+                      marginHorizontal: 15,
                       borderRadius: 10,
-                      overflow: "hidden",
+                      overflow: 'hidden',
                     }}
                   >
                     <Image
-                      source={images}
+                      source={image.source}
                       style={{
                         width: "100%",
-                        height: "100%",
+                        height: "80%",
                       }}
+                      
                     />
+                    <Text
+                    style={{
+                      textAlign: 'center',
+                      marginTop: 5,
+                      fontSize: 16, // Adjust as needed
+                    }}
+                  >
+                    {image.title}
+                  </Text>
                   </View>
                 ))}
               </ScrollView>        
             </ScrollView>
         </Main>
+
+
       </NewsContainer>
     </SafeAreaView>
+
   );
 };
 
@@ -173,11 +189,12 @@ const styles = StyleSheet.create({
     buttonView: {
       width: 100,
       height: 40,
+      margin: 10,
       paddingLeft: 16,
       paddingRight: 16,
       paddingTop: 8,
       paddingBottom: 8,
-      backgroundColor: "white",
+      backgroundColor: "blue",
       borderRadius: 16,
       border: "1px #E9F3ED solid",
       justifyContent: 'center', 
@@ -185,7 +202,7 @@ const styles = StyleSheet.create({
       gap: 8,
     },
     buttonText: {
-      color: "#2E0505",
+      color: "green", // green
       fontFamily: "Nunito",
       fontSize: 12,
       fontWeight: '600',

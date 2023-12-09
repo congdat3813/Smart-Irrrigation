@@ -24,7 +24,7 @@ import RegisterScreen03 from "@/Screens/Login/Register/RegisterScreen_3";
 import RegisterScreen04 from "@/Screens/Login/Register/RegisterScreen_4";
 import { WeatherContainer } from "@/Screens/Weather";
 import { ScheduleContainer } from "@/Screens/Schedule";
-import { NewsContainer } from "@/Screens/News";
+import NewsContainer from "@/Screens/News/NewsContainer";
 export type RootStackParamList = {
   // [RootScreens.MAIN]: undefined;
   // [RootScreens.WELCOME]: undefined;
@@ -114,11 +114,6 @@ const ApplicationNavigator = () => {
         <RootStack.Screen
           name={RootScreens.ADDFARM}
           component={AddFarmScreenContainer}
-          options={{}}
-        ></RootStack.Screen>
-        <RootStack.Screen
-          name={RootScreens.NOTIFY}
-          component={NotifyCotainer}
           options={{}}
         ></RootStack.Screen>
         <RootStack.Screen

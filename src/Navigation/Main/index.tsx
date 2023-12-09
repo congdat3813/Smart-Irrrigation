@@ -10,6 +10,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { View } from "react-native";
 import RegularText from "@/Components/texts/RegularText";
+import NewsContainer from "@/Screens/News/NewsContainer";
 const Tab = createBottomTabNavigator();
 // @refresh reset
 const screenOptions = {
@@ -27,8 +28,8 @@ export const MainNavigator = () => {
   return (
     <Tab.Navigator screenOptions={screenOptions}>
       <Tab.Screen
-        name="Main"
-        component={MainScreenContainer}
+        name="News"
+        component={NewsContainer}
         options={{
           tabBarIcon: ({ focused }) => {
             return (
