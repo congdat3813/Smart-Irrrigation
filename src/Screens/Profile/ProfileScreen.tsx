@@ -92,7 +92,7 @@ const ProfileScreen: FunctionComponent = () => {
             name="pencil"
             size={28}
             color="white"
-            style={{ alignSelf: "center", marginLeft: 200 }}
+            style={{ alignSelf: "center", marginLeft: 160 }}
             onPress={() => {
               navigation.navigate(RootScreens.UPDATEPROFILE);
             }}
