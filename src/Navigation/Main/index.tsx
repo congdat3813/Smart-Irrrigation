@@ -10,6 +10,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { View } from "react-native";
 import RegularText from "@/Components/texts/RegularText";
+import MainScreen from "@/Screens/Main/MainScreen";
 const Tab = createBottomTabNavigator();
 // @refresh reset
 const screenOptions = {
@@ -27,8 +28,8 @@ export const MainNavigator = () => {
   return (
     <Tab.Navigator screenOptions={screenOptions}>
       <Tab.Screen
-        name="Main"
-        component={MainScreenContainer}
+        name="Static"
+        component={StatisticContainer}
         options={{
           tabBarIcon: ({ focused }) => {
             return (
@@ -85,8 +86,8 @@ export const MainNavigator = () => {
         }}
       />
       <Tab.Screen
-        name="Static"
-        component={StatisticContainer}
+        name="Main"
+        component={MainScreenContainer}
         options={{
           tabBarIcon: ({ focused }) => {
             return (
