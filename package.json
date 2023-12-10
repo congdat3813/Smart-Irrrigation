@@ -13,7 +13,7 @@
     "@react-navigation/bottom-tabs": "^6.4.0",
     "@react-navigation/native": "^6.0.13",
     "@react-navigation/native-stack": "^6.9.0",
-    "@reduxjs/toolkit": "^1.8.5",
+    "@reduxjs/toolkit": "^2.0.1",
     "@styled-icons/evaicons-outline": "^10.46.0",
     "@styled-icons/octicons": "^10.47.0",
     "@types/styled-components": "^5.1.28",
@@ -39,7 +39,7 @@
     "react-native-screens": "~3.20.0",
     "react-native-svg": "13.4.0",
     "react-native-vector-icons": "^10.0.0",
-    "react-redux": "^8.0.2",
+    "react-redux": "^9.0.2",
     "redux-persist": "^6.0.0",
     "styled-components": "^6.0.9",
     "styled-icons": "^10.47.0"

@@ -28,9 +28,17 @@ const ImageContainer = styled.Image`
   resize-mode: contain;
   margin-left: -30px;
 `;
-import { TreeItemProps } from "./types";
+
 import BigText from "../texts/BigText";
 import { FontSize } from "@/Theme/Variables";
+import { StyleProp, TextStyle } from "react-native";
+export interface TreeItemProps {
+  textStyles?: StyleProp<TextStyle>;
+  treeName: string;
+  temp: string;
+  moisture: string;
+}
+
 const TreeItem: FunctionComponent<TreeItemProps> = (props) => {
   return (
     <ItemContainer>

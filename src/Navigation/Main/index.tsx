@@ -67,11 +67,17 @@ export const MainNavigator = () => {
                 <View
                   style={{
                     position: "absolute",
-                    bottom: -25,
+                    bottom: -28,
                     alignSelf: "center",
                   }}
                 >
-                  <RegularText>Trang chủ</RegularText>
+                  {
+                    focused ? (
+                        <RegularText textStyles={{fontWeight:'700'}}>Trang chủ</RegularText>
+                      ) : (
+                        <RegularText >Trang chủ</RegularText>
+                    )
+                  }
                 </View>
               </View>
             );
@@ -119,11 +125,17 @@ export const MainNavigator = () => {
                 <View
                   style={{
                     position: "absolute",
-                    bottom: -25,
+                    bottom: -28,
                     alignSelf: "center",
                   }}
                 >
-                  <RegularText>Nông trại</RegularText>
+                  {
+                    focused ? (
+                        <RegularText textStyles={{fontWeight:'700'}}>Nông trại</RegularText>
+                      ) : (
+                        <RegularText >Nông trại</RegularText>
+                    )
+                  }
                 </View>
               </View>
             );
@@ -172,11 +184,17 @@ export const MainNavigator = () => {
                 <View
                   style={{
                     position: "absolute",
-                    bottom: -25,
+                    bottom: -28,
                     alignSelf: "center",
                   }}
                 >
-                  <RegularText>Thông báo</RegularText>
+                  {
+                    focused ? (
+                        <RegularText textStyles={{fontWeight:'700'}}>Thông báo</RegularText>
+                      ) : (
+                        <RegularText >Thông báo</RegularText>
+                    )
+                  }
                 </View>
               </View>
             );
@@ -225,11 +243,17 @@ export const MainNavigator = () => {
                 <View
                   style={{
                     position: "absolute",
-                    bottom: -27,
+                    bottom: -28,
                     alignSelf: "center",
                   }}
                 >
-                  <RegularText>Tài khoản</RegularText>
+                  {
+                    focused ? (
+                        <RegularText textStyles={{fontWeight:'700'}}>Tài khoản</RegularText>
+                      ) : (
+                        <RegularText >Tài khoản</RegularText>
+                    )
+                  }
                 </View>
               </View>
             );

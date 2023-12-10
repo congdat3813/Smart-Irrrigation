@@ -7,7 +7,7 @@ import { View } from "react-native";
 import RegularText from "@/Components/texts/RegularText";
 const NotifyContainerItem = styled.View`
     flex-direction: col;
-    background-color: ${colors.lightgray};
+    background-color: #f1f5f9;
     border-radius: 10px;
     margin-vertical: 2px;
     width: 90%;

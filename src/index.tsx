@@ -15,8 +15,8 @@ i18n.defaultLocale = Language.ENGLISH;
 
 export default function App() {
   return (
-    <NativeBaseProvider>
+    <Provider store={store}>
       <ApplicationNavigator />
-    </NativeBaseProvider>
+    </Provider>
   );
 }

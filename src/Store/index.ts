@@ -12,12 +12,13 @@ import {
   PURGE,
   REGISTER,
 } from "redux-persist";
-import { homeReducers, themeReducers } from "./reducers";
+import { farmList, homeReducers, themeReducers } from "./reducers";
 
 const reducers = combineReducers({
   api: API.reducer,
   theme: themeReducers,
   home: homeReducers,
+  farm: farmList,
 });
 
 const persistConfig = {
@@ -47,6 +48,8 @@ const store = configureStore({
 });
 
 const persistor = persistStore(store);
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
 
 setupListeners(store.dispatch);
 

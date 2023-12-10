@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import styled from "styled-components/native";
 
@@ -12,13 +12,16 @@ import logo from "../../../assets//bg/logocay.png";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import { EvilIcons } from "@expo/vector-icons";
 import { TextInput } from "react-native";
-import TreeItem from "@/Components/item/TreeItem";
+import TreeItem, { TreeItemProps } from "@/Components/item/TreeItem";
 import RegularButton from "@/Components/button/RegularButton";
 import { AntDesign } from '@expo/vector-icons';
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "@/Navigation";
 import { RootScreens } from "..";
+import { useDispatch,useSelector } from "react-redux";
+import { addItem } from "@/Store/reducers";
+import { RootState } from "@/Store";
 const MainScreenContainer = styled.View`
   background-color: ${colors.white};
   flex: 1;
@@ -53,7 +56,8 @@ const ItemContainer = styled.ScrollView`
 `;
 const MainScreen: FunctionComponent = () => {
   const navigation =
-  useNavigation<NativeStackNavigationProp<RootStackParamList>>();;
+  useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const items = useSelector((state: RootState) => state.farm.items)
   return (
     <SafeAreaView
       style={{
@@ -95,7 +99,10 @@ const MainScreen: FunctionComponent = () => {
             </RegularText>
         </Pressable>
         <ItemContainer>
-          <TreeItem
+          {items.map((item, index) => (
+            <TreeItem key={index} {...item} />
+          ))}
+          {/* <TreeItem
             treeName={"Cây xoài"}
             temp={"30"}
             moisture={"67"}
@@ -124,7 +131,7 @@ const MainScreen: FunctionComponent = () => {
             treeName={"Cây cam"}
             temp={"30"}
             moisture={"67"}
-          ></TreeItem>
+          ></TreeItem> */}
         </ItemContainer>
       </MainScreenContainer>
     </SafeAreaView>
