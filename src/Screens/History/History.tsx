@@ -3,9 +3,8 @@ import React, {useEffect, useState} from "react";
 import { FontAwesome5, AntDesign, Entypo, MaterialCommunityIcons, MaterialIcons, Ionicons} from "@expo/vector-icons";
 import { ActivityIndicator, FlatList, SectionList, View, Text, StyleSheet, Image, Pressable, TouchableOpacity, Dimensions} from "react-native";
 import { StatusBar } from "expo-status-bar";
-import { HStack, Spinner, Heading } from "native-base";
+import { HStack, Spinner, Heading, Button } from "native-base";
 import { User } from "@/Services";
-import { BackButton } from "@/Components/backbutton";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "@/Navigation";
 import { RootScreens } from "..";
@@ -25,94 +24,102 @@ export interface IHistoryProps {
 export const History = (props: {
   onNavigate: (string: RootScreens) => void;
   }) => {
+    // const [startDate, setStartDate] = useState(new Date());
+    // const [endDate, setEndDate] = useState(new Date());
+    // const [isStartDatePickerVisible, setStartDatePickerVisibility] = useState(false);
+    // const [isEndDatePickerVisible, setEndDatePickerVisibility] = useState(false);
 
-    const [startDate, setStartDate] = useState(new Date());
-    const [endDate, setEndDate] = useState(new Date());
-    const [isStartDatePickerVisible, setStartDatePickerVisibility] = useState(false);
-    const [isEndDatePickerVisible, setEndDatePickerVisibility] = useState(false);
+    // const showStartDatePicker = () => {
+    //     setStartDatePickerVisibility(true);
+    // };
 
-    const showStartDatePicker = () => {
-        setStartDatePickerVisibility(true);
-    };
+    // const hideStartDatePicker = () => {
+    //     setStartDatePickerVisibility(false);
+    // };
 
-    const hideStartDatePicker = () => {
-        setStartDatePickerVisibility(false);
-    };
+    // const showEndDatePicker = () => {
+    //     setEndDatePickerVisibility(true);
+    // };
 
-    const showEndDatePicker = () => {
-        setEndDatePickerVisibility(true);
-    };
+    // const hideEndDatePicker = () => {
+    //     setEndDatePickerVisibility(false);
+    // };
 
-    const hideEndDatePicker = () => {
-        setEndDatePickerVisibility(false);
-    };
+    // const handleStartConfirm = (startDate: any) => {
+    //     setStartDate(startDate);
+    //     hideStartDatePicker();
+    // };
 
-    const handleStartConfirm = (startDate: any) => {
-        setStartDate(startDate);
-        hideStartDatePicker();
-    };
-
-    const handleEndConfirm = (endDate: any) => {
-        setEndDate(endDate);
-        hideEndDatePicker();
-    };
+    // const handleEndConfirm = (endDate: any) => {
+    //     setEndDate(endDate);
+    //     hideEndDatePicker();
+    // };
 
     const DATA = [
-        {
-            day: '26/10/2023',
-            data: [
-                {
-                    model: 'Năng suất',
-                    waterAmount: '02 lít',
-                    lengthTime: '10 phút',
-                    time: '08:20',
-                },
-                {
-                    model: 'Năng suất',
-                    waterAmount: '02 lít',
-                    lengthTime: '10 phút',
-                    time: '13:10',
-                },
-                {
-                    model: 'Năng suất',
-                    waterAmount: '02 lít',
-                    lengthTime: '10 phút',
-                    time: '17:00',
-                },
-            ],
-        },
-        {
-            day: '25/10/2023',
-            data: [
-                {
-                    model: 'Năng suất',
-                    waterAmount: '02 lít',
-                    lengthTime: '10 phút',
-                    time: '08:20',
-                },
-                {
-                    model: 'Năng suất',
-                    waterAmount: '02 lít',
-                    lengthTime: '10 phút',
-                    time: '13:10',
-                },
-                {
-                    model: 'Năng suất',
-                    waterAmount: '02 lít',
-                    lengthTime: '10 phút',
-                    time: '17:00',
-                },
-            ],
-        },
+      {
+        day: '26/10/2023',
+        data: [
+          {
+              model: 'Năng suất',
+              waterAmount: '02 lít',
+              lengthTime: '10 phút',
+              time: '08:20',
+          },
+          {
+              model: 'Năng suất',
+              waterAmount: '02 lít',
+              lengthTime: '10 phút',
+              time: '13:10',
+          },
+          {
+              model: 'Năng suất',
+              waterAmount: '02 lít',
+              lengthTime: '10 phút',
+              time: '17:00',
+          },
+          {
+            model: 'Năng suất',
+            waterAmount: '02 lít',
+            lengthTime: '10 phút',
+            time: '17:00',
+          },
+        ],
+      },
+      {
+        day: '25/10/2023',
+        data: [
+          {
+              model: 'Năng suất',
+              waterAmount: '02 lít',
+              lengthTime: '10 phút',
+              time: '08:20',
+          },
+          {
+              model: 'Năng suất',
+              waterAmount: '02 lít',
+              lengthTime: '10 phút',
+              time: '13:10',
+          },
+          {
+              model: 'Năng suất',
+              waterAmount: '02 lít',
+              lengthTime: '10 phút',
+              time: '17:00',
+          },
+        ],
+      },
     ];
+    
+    // console.log(DATA[0].data.length);
 
-    const moment = require('moment');
+    // const moment = require('moment');
 
-    let now = moment().format('LLLL');
+    // let now = moment().format('LLLL');
 
-    let startDateMoment = moment(startDate);
-    let endDateMoment = moment(endDate);
-    let checked = DATA.filter(x => moment(x.day, "DD/MM/YYYY").isBetween(startDateMoment, endDateMoment, 'day', '[]') === true);
+    // let startDateMoment = moment(startDate);
+    // let endDateMoment = moment(endDate);
+    let bool = false;
+    let checked = DATA.slice(0,1);
     // console.log(checked);
 
   return(
@@ -149,7 +156,7 @@ export const History = (props: {
               </View>
             </Pressable>
           </View>
-          <View style={styles.inactive}>
+          {/* <View style={styles.inactive}>
             <Pressable onPress={() => props.onNavigate(RootScreens.IRRIGATIONMODE)} style={styles.activePress}>
               <View style={styles.cycle}>
                 <Entypo name="water" size={24} color={Colors.BOLD_BUTTON} style={styles.iconStyle}/>
@@ -158,7 +165,7 @@ export const History = (props: {
                 <Text style={styles.inactiveContent}>Chế độ tưới</Text>
               </View>
             </Pressable>
-          </View>
+          </View> */}
           <View style={styles.inactive}>
             <Pressable onPress={() => props.onNavigate(RootScreens.MODEL)} style={styles.activePress}>
               <View style={styles.cycle}>
@@ -191,43 +198,6 @@ export const History = (props: {
           </View>
         </View>
         <View style={styles.info}>
-            <View style={styles.dateInfo}>
-              <View style={styles.date}>
-                <Text style={styles.regularText}>Ngày bắt đầu</Text>
-                <View style={styles.datePicker}>
-                    <TouchableOpacity style={styles.datePickerPress} onPress={showStartDatePicker}>
-                        <Text style={styles.regularText}>{startDate.toLocaleDateString()}</Text>
-                    </TouchableOpacity>
-                    <DateTimePickerModal
-                        isVisible={isStartDatePickerVisible}
-                        mode="date"
-                        display="inline"
-                        date={startDate}
-                        onConfirm={handleStartConfirm}
-                        onCancel={hideStartDatePicker}
-                        maximumDate={endDate}
-                    />
-                </View>
-              </View>
-              <View style={styles.date}>
-                <Text style={styles.regularText}>Ngày kết thúc</Text>
-                <View style={styles.datePicker}>
-                    <TouchableOpacity style={styles.datePickerPress} onPress={showEndDatePicker}>
-                        <Text style={styles.regularText}>{endDate.toLocaleDateString()}</Text>
-                    </TouchableOpacity>
-                    <DateTimePickerModal
-                        isVisible={isEndDatePickerVisible}
-                        mode="date"
-                        display="inline"
-                        date={endDate}
-                        onConfirm={handleEndConfirm}
-                        onCancel={hideEndDatePicker}
-                        maximumDate={new Date()}
-                        minimumDate={startDate}
-                    />
-                </View>
-              </View>
-            </View>
             <View style={styles.historyList}>
                 <View style={styles.historyInfo}>
                     <View style={styles.historyInfoItem}>
@@ -273,6 +243,13 @@ export const History = (props: {
                       </View>
                     )}
                 />
+                <View>
+                  <Pressable style={styles.activePress} onPress={() => {checked = DATA; bool = true;}}>
+                    <View style={styles.moreButton}>
+                      <Text style={styles.regularText}>Xem thêm</Text>
+                    </View>
+                  </Pressable>
+                </View>
             </View>
         </View>
       </View>
@@ -281,7 +258,7 @@ export const History = (props: {
 }
 const styles = StyleSheet.create({
     header: {
-        height: '40%',
+        height: '50%',
         backgroundColor: Colors.AVT_BACKGROUND,
     },
 
@@ -307,7 +284,7 @@ const styles = StyleSheet.create({
     },
 
     body:{
-        height: '60%',
+        height: '50%',
         flexDirection: 'row',
     },
 
@@ -365,19 +342,19 @@ const styles = StyleSheet.create({
         
     active:{
         backgroundColor: Colors.AVT_BACKGROUND,
-        height: '20%',
+        height: '25%',
         flexDirection: "column",
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 15,
-    },   
+    },
         
     inactive:{
-        height: '20%',
+        height: '25%',
         flexDirection: "column",
         alignItems: 'center',
         justifyContent: 'center',
-    },    
+    },
         
     activePress:{
         flexDirection: "column",
@@ -467,15 +444,16 @@ const styles = StyleSheet.create({
     },
 
     historyList: {
-      backgroundColor: Colors.NORMAL_BACKGROUND,
+      // backgroundColor: Colors.NORMAL_BACKGROUND,
       width: '90%',
-      height: '78%',
+      height: '100%',
       borderRadius: 15,
+      top: '5%',
     },
 
     historyInfo: {
         width: '100%',
-        height: '15%',
+        // height: '15%',
         flexDirection: 'row',
         justifyContent: 'space-around',
         top: '2%',
@@ -498,5 +476,14 @@ const styles = StyleSheet.create({
       color: Colors.BOLD_BUTTON, 
       fontSize: 16 * screenScale, 
       fontWeight: '500',
+    },
+
+    moreButton: {
+      backgroundColor: '#d9d9d9',
+      paddingTop: 8,
+      paddingBottom: 8,
+      paddingLeft: '10%',
+      paddingRight: '10%',
+      borderRadius: 15,
     },
 });
