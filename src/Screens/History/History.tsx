@@ -109,18 +109,24 @@ export const History = (props: {
         ],
       },
     ];
-    
-    // console.log(DATA[0].data.length);
 
-    // const moment = require('moment');
-
-    // let now = moment().format('LLLL');
-
-    // let startDateMoment = moment(startDate);
-    // let endDateMoment = moment(endDate);
     let bool = false;
     let checked = DATA.slice(0,1);
-    // console.log(checked);
+    const [data, setData] = useState(checked);
+    const [buttonState, setButtonState] = useState(true);
+    const [scroll, setScroll] = useState(false);
+
+    const changeData = (change: any) => {
+      setData(change);
+    }
+    
+    const changeState = () => {
+      setButtonState(!buttonState);
+    }
+
+    const changeScroll = () => {
+      setScroll(!scroll);
+    }
 
   return(
     <SafeAreaView style={{backgroundColor: Colors.AVT_BACKGROUND,}}>
@@ -214,8 +220,9 @@ export const History = (props: {
                     </View>
                 </View>
                 <SectionList
-                    stickySectionHeadersEnabled={false}
-                    sections={checked}
+                    sections={data}
+                    extraData={bool}
+                    scrollEnabled={scroll}
                     renderItem={({item}) => (
                       <View style={styles.historyInfoList}>
                           <View style={styles.historyInfoItem}>
@@ -238,18 +245,22 @@ export const History = (props: {
                       </View>
                     }
                     renderSectionHeader={({section: {day}}) => (
-                      <View style={{paddingLeft: '2%', paddingTop: '5%',}}>
+                      <View style={{paddingLeft: '2%', paddingTop: '2%', backgroundColor: Colors.AVT_BACKGROUND,}}>
                         <Text style={styles.regularText}>{day}</Text>
                       </View>
                     )}
                 />
+                {buttonState? 
                 <View>
-                  <Pressable style={styles.activePress} onPress={() => {checked = DATA; bool = true;}}>
+                  <Pressable style={styles.activePress} onPress={() => {changeData(DATA); changeState(); changeScroll(); bool = true;}}>
                     <View style={styles.moreButton}>
                       <Text style={styles.regularText}>Xem thêm</Text>
                     </View>
                   </Pressable>
                 </View>
+                :
+                <></>
+                }
             </View>
         </View>
       </View>
@@ -444,7 +455,7 @@ const styles = StyleSheet.create({
     },
 
     historyList: {
-      // backgroundColor: Colors.NORMAL_BACKGROUND,
+      backgroundColor: Colors.AVT_BACKGROUND,
       width: '90%',
       height: '100%',
       borderRadius: 15,
@@ -453,10 +464,11 @@ const styles = StyleSheet.create({
 
     historyInfo: {
         width: '100%',
-        // height: '15%',
+        height: '15%',
         flexDirection: 'row',
         justifyContent: 'space-around',
         top: '2%',
+        backgroundColor: Colors.AVT_BACKGROUND,
     },
 
     historyInfoList: {
