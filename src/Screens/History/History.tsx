@@ -1,18 +1,13 @@
 import { i18n, LocalizationKey } from "@/Localization";
 import React, {useEffect, useState} from "react";
 import { FontAwesome5, AntDesign, Entypo, MaterialCommunityIcons, MaterialIcons, Ionicons} from "@expo/vector-icons";
-import { ActivityIndicator, FlatList, SectionList, View, Text, StyleSheet, Image, Pressable, TouchableOpacity, Dimensions} from "react-native";
+import { SectionList, View, Text, StyleSheet, Pressable, Dimensions} from "react-native";
 import { StatusBar } from "expo-status-bar";
-import { HStack, Spinner, Heading, Button } from "native-base";
-import { User } from "@/Services";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { RootStackParamList } from "@/Navigation";
 import { RootScreens } from "..";
 import {FontSize, Colors} from "@/Theme"
 import {HistoryScreenNavigatorProps} from "./HistoryContainer";
 import { SafeAreaView } from "react-native-safe-area-context";
-import DateTimePickerModal from "react-native-modal-datetime-picker";
-import Moment from 'moment';
+import HeaderDetail from "@/Components/header"
 
 const screenWidth = Dimensions.get('window').width;
 const screenScale = screenWidth / 375;
@@ -24,37 +19,6 @@ export interface IHistoryProps {
 export const History = (props: {
   onNavigate: (string: RootScreens) => void;
   }) => {
-    // const [startDate, setStartDate] = useState(new Date());
-    // const [endDate, setEndDate] = useState(new Date());
-    // const [isStartDatePickerVisible, setStartDatePickerVisibility] = useState(false);
-    // const [isEndDatePickerVisible, setEndDatePickerVisibility] = useState(false);
-
-    // const showStartDatePicker = () => {
-    //     setStartDatePickerVisibility(true);
-    // };
-
-    // const hideStartDatePicker = () => {
-    //     setStartDatePickerVisibility(false);
-    // };
-
-    // const showEndDatePicker = () => {
-    //     setEndDatePickerVisibility(true);
-    // };
-
-    // const hideEndDatePicker = () => {
-    //     setEndDatePickerVisibility(false);
-    // };
-
-    // const handleStartConfirm = (startDate: any) => {
-    //     setStartDate(startDate);
-    //     hideStartDatePicker();
-    // };
-
-    // const handleEndConfirm = (endDate: any) => {
-    //     setEndDate(endDate);
-    //     hideEndDatePicker();
-    // };
-
     const DATA = [
       {
         day: '26/10/2023',
@@ -131,54 +95,26 @@ export const History = (props: {
   return(
     <SafeAreaView style={{backgroundColor: Colors.AVT_BACKGROUND,}}>
       <StatusBar style="auto" />
-      <View style={styles.header}>
-        <View style={styles.headerBar}>
-          <View style={styles.headerBarTitle}>
-            <FontAwesome5 name='chevron-left' size={30} color='black' style={{marginLeft: 15}}/>
-          </View>
-        </View>
-        <View style={styles.intro}>
-          <View style={{left: 25, marginBottom: 15, marginTop: 15,}}>
-            <Text style={styles.title}>Cây Xoài</Text>
-          </View>
-          <Text style={styles.normalText}>Ngày trồng: 22/08/2022</Text>
-          <Text style={styles.normalText}>Địa chỉ: Đồng Nai</Text>
-          <Text style={styles.normalText}>Đất: Đất thịt</Text>
-          <Text style={styles.normalText}>Diện tích: 2000 m2</Text>
-        </View>
-        <View style={styles.avt}>
-          <Image source={ require("../../../assets/Intersect.png")} style={{height: 300, width: 250}}/>
-        </View>
-      </View>
+      <HeaderDetail></HeaderDetail>
       <View style={styles.body}>
         <View style={styles.leftNavigation}>
           <View style={styles.inactive}>
-            <Pressable onPress={() => props.onNavigate(RootScreens.FARMDETAIL)} style={styles.activePress}>
+            <Pressable onPress={() => props.onNavigate(RootScreens.MODEL)} style={styles.activePress}>
               <View style={styles.cycle}>
-                <AntDesign name="info" size={30} color={Colors.BOLD_BUTTON} style={styles.iconStyle}/>
+                <FontAwesome5 name="seedling" size={24} color={Colors.BOLD_BUTTON} style={styles.iconStyle}/>
               </View>
               <View style={styles.intro}>
-                <Text style={styles.inactiveContent}>Thông tin</Text>
+                <Text style={styles.inactiveContent}>Mô hình</Text>
               </View>
             </Pressable>
           </View>
-          {/* <View style={styles.inactive}>
-            <Pressable onPress={() => props.onNavigate(RootScreens.IRRIGATIONMODE)} style={styles.activePress}>
-              <View style={styles.cycle}>
-                <Entypo name="water" size={24} color={Colors.BOLD_BUTTON} style={styles.iconStyle}/>
-              </View>
-              <View style={styles.intro}>
-                <Text style={styles.inactiveContent}>Chế độ tưới</Text>
-              </View>
-            </Pressable>
-          </View> */}
           <View style={styles.inactive}>
-            <Pressable onPress={() => props.onNavigate(RootScreens.MODEL)} style={styles.activePress}>
+            <Pressable onPress={() => props.onNavigate(RootScreens.SCHEDULE)} style={styles.activePress}>
               <View style={styles.cycle}>
                 <FontAwesome5 name="list-ul" size={24} color={Colors.BOLD_BUTTON} style={styles.iconStyle} />
               </View>
               <View style={styles.intro}>
-                <Text style={styles.inactiveContent}>Mô hình</Text>
+                <Text style={styles.inactiveContent}>Lịch trình</Text>
               </View>
             </Pressable>
           </View>

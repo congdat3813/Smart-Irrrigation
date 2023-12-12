@@ -4,16 +4,12 @@ import { FontAwesome5, AntDesign, Entypo, MaterialCommunityIcons, MaterialIcons,
 import { ActivityIndicator, FlatList, View, Text, StyleSheet, Image, Pressable, Dimensions} from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { HStack, Spinner, Heading, ScrollView } from "native-base";
-import { User } from "@/Services";
-import { BackButton } from "@/Components/backbutton";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { RootStackParamList } from "@/Navigation";
 import { RootScreens } from "..";
 import {FontSize, Colors} from "@/Theme"
 import {WeatherScreenNavigatorProps} from "./WeatherContainer";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Moment from 'moment';
 import { useLazyGetWeatherQuery } from "@/Services";
+import HeaderDetail from "@/Components/header";
 
 const screenWidth = Dimensions.get('window').width;
 const screenScale = screenWidth / 375;
@@ -140,54 +136,26 @@ export const Weather = (props: {
   return(
     <SafeAreaView style={{backgroundColor: Colors.AVT_BACKGROUND,}}>
       <StatusBar style="auto" />
-      <View style={styles.header}>
-        <View style={styles.headerBar}>
-          <View style={styles.headerBarTitle}>
-            <FontAwesome5 name='chevron-left' size={30} color='black' style={{marginLeft: 15}}/>
-          </View>
-        </View>
-        <View style={styles.intro}>
-          <View style={{left: 25, marginBottom: 15, marginTop: 15,}}>
-            <Text style={styles.title}>Cây Xoài</Text>
-          </View>
-          <Text style={styles.normalText}>Ngày trồng: 22/08/2022</Text>
-          <Text style={styles.normalText}>Địa chỉ: Đồng Nai</Text>
-          <Text style={styles.normalText}>Đất: Đất thịt</Text>
-          <Text style={styles.normalText}>Diện tích: 2000 m2</Text>
-        </View>
-        <View style={styles.avt}>
-          <Image source={ require("../../../assets/Intersect.png")} style={{height: 300, width: 250}}/>
-        </View>
-      </View>
+      <HeaderDetail></HeaderDetail>
       <View style={styles.body}>
-        <View style={styles.leftNavigation}>
-          <View style={styles.inactive}>
-            <Pressable onPress={() => props.onNavigate(RootScreens.FARMDETAIL)} style={styles.activePress}>
-              <View style={styles.cycle}>
-                <AntDesign name="info" size={30} color={Colors.BOLD_BUTTON} style={styles.iconStyle}/>
-              </View>
-              <View style={styles.intro}>
-                <Text style={styles.inactiveContent}>Thông tin</Text>
-              </View>
-            </Pressable>
-          </View>
-          <View style={styles.inactive}>
-            <Pressable onPress={() => props.onNavigate(RootScreens.IRRIGATIONMODE)} style={styles.activePress}>
-              <View style={styles.cycle}>
-                <Entypo name="water" size={24} color={Colors.BOLD_BUTTON} style={styles.iconStyle}/>
-              </View>
-              <View style={styles.intro}>
-                <Text style={styles.inactiveContent}>Chế độ tưới</Text>
-              </View>
-            </Pressable>
-          </View>
+      <View style={styles.leftNavigation}>
           <View style={styles.inactive}>
             <Pressable onPress={() => props.onNavigate(RootScreens.MODEL)} style={styles.activePress}>
+              <View style={styles.cycle}>
+                <FontAwesome5 name="seedling" size={24} color={Colors.BOLD_BUTTON} style={styles.iconStyle}/>
+              </View>
+              <View style={styles.intro}>
+                <Text style={styles.inactiveContent}>Mô hình</Text>
+              </View>
+            </Pressable>
+          </View>
+          <View style={styles.inactive}>
+            <Pressable onPress={() => props.onNavigate(RootScreens.SCHEDULE)} style={styles.activePress}>
               <View style={styles.cycle}>
                 <FontAwesome5 name="list-ul" size={24} color={Colors.BOLD_BUTTON} style={styles.iconStyle} />
               </View>
               <View style={styles.intro}>
-                <Text style={styles.inactiveContent}>Mô hình</Text>
+                <Text style={styles.inactiveContent}>Lịch trình</Text>
               </View>
             </Pressable>
           </View>
@@ -269,34 +237,8 @@ export const Weather = (props: {
   )
 }
 const styles = StyleSheet.create({
-    header: {
-        height: '40%',
-        backgroundColor: Colors.AVT_BACKGROUND,
-    },
-
-    headerBar: {
-        height: '5%',
-        width: '100%',
-        backgroundColor: Colors.AVT_BACKGROUND,
-        justifyContent: 'flex-end',
-        marginBottom: '10%',
-    },
-
-    headerBarTitle: {
-        alignItems: 'center',
-        flexDirection: 'row',
-        position: 'absolute',
-        top: 20,
-    },
-
-    avt:{
-        bottom: '-10%',
-        right: '5%', 
-        position: 'absolute',
-    },
-
     body:{
-        height: '60%',
+        height: '50%',
         flexDirection: 'row',
     },
 
@@ -337,7 +279,7 @@ const styles = StyleSheet.create({
         
     active:{
         backgroundColor: Colors.AVT_BACKGROUND,
-        height: '20%',
+        height: '25%',
         flexDirection: "column",
         alignItems: 'center',
         justifyContent: 'center',
@@ -345,7 +287,7 @@ const styles = StyleSheet.create({
     },   
         
     inactive:{
-        height: '20%',
+        height: '25%',
         flexDirection: "column",
         alignItems: 'center',
         justifyContent: 'center',

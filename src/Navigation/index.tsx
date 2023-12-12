@@ -69,7 +69,7 @@ const ApplicationNavigator = () => {
           name={RootScreens.HOME}
           component={HomeContainer}
         /> */}
-        {/* <RootStack.Screen
+        <RootStack.Screen
           name={RootScreens.LOGIN}
           component={LoginScreenContainer}
           options={{}}
@@ -123,7 +123,7 @@ const ApplicationNavigator = () => {
           name={RootScreens.UPDATEPROFILE}
           component={ProfileUpdateScreen}
           options={{}}
-        ></RootStack.Screen> */}
+        ></RootStack.Screen>
         <RootStack.Screen
           name={RootScreens.FARMDETAIL}
           component={FarmDetailContainer}
