@@ -72,15 +72,16 @@ const ApplicationNavigator = () => {
           component={HomeContainer}
         /> */}
         <RootStack.Screen
+          name={RootScreens.SCHEDULE}
+          component={ScheduleContainer}
+          options={{}}
+        ></RootStack.Screen>
+        <RootStack.Screen
           name={RootScreens.NEWS}
           component={NewsContainer}
           options={{}}
         ></RootStack.Screen>
-        <RootStack.Screen
-          name={RootScreens.LOGIN}
-          component={LoginScreenContainer}
-          options={{}}
-        ></RootStack.Screen>
+        
         <RootStack.Screen
           name={RootScreens.SPLASH}
           component={SplashScreenContainer}
@@ -155,12 +156,6 @@ const ApplicationNavigator = () => {
         <RootStack.Screen
           name={RootScreens.MAINTREE}
           component={MainScreenContainer}
-          options={{}}
-        ></RootStack.Screen>
-
-        <RootStack.Screen
-          name={RootScreens.SCHEDULE}
-          component={ScheduleContainer}
           options={{}}
         ></RootStack.Screen>
       </RootStack.Navigator>
