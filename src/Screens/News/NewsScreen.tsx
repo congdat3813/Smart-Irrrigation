@@ -194,16 +194,14 @@ const styles = StyleSheet.create({
       paddingRight: 16,
       paddingTop: 8,
       paddingBottom: 8,
-      backgroundColor: "blue",
+      backgroundColor: "#D4F4DD", // green
       borderRadius: 16,
-      border: "1px #E9F3ED solid",
       justifyContent: 'center', 
       alignItems: 'center',
       gap: 8,
     },
     buttonText: {
-      color: "green", // green
-      fontFamily: "Nunito",
+      color: "#2E0505", // green
       fontSize: 12,
       fontWeight: '600',
       wordWrap: 'break-word',
