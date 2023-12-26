@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import styled from "styled-components/native";
 
@@ -7,7 +7,7 @@ import { colors } from "../../Components/colors";
 
 import RegularText from "@/Components/texts/RegularText";
 import BigText from "@/Components/texts/BigText";
-import { Pressable, SafeAreaView } from "react-native";
+import { Pressable, SafeAreaView, ScrollView, View } from "react-native";
 import logo from "../../../assets//bg/logocay.png";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import { EvilIcons } from "@expo/vector-icons";
@@ -19,6 +19,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "@/Navigation";
 import { RootScreens } from "..";
+import { FarmListJson } from "@/Config";
 const MainScreenContainer = styled.View`
   background-color: ${colors.white};
   flex: 1;
@@ -53,6 +54,21 @@ const ItemContainer = styled.ScrollView`
 `;
 const MainScreen: FunctionComponent = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const [farmListData, setFarmListData] = useState([{
+    name: "",
+    date: "",
+    model: "",
+    timeOn: "",
+    plant: '',
+    acraege: '',
+    location: '',
+    scenario: [],
+    sche: []
+  }]);
+  useEffect(() => {
+    setFarmListData(FarmListJson);
+   })
+  console.log(FarmListJson);
   return (
     <SafeAreaView
       style={{
@@ -93,13 +109,17 @@ const MainScreen: FunctionComponent = () => {
               Thêm nông trại
             </RegularText>
         </Pressable>
-        <ItemContainer>
-          <TreeItem 
-            treeName={"Cây xoài"}
-            model={"Năng suất"}
-            timeOn={"10:00:00"}
-          ></TreeItem>
-        </ItemContainer>
+            <ItemContainer>
+            {farmListData.map((item, index) => {
+            return (
+            <View key={index}>
+              <TreeItem 
+                index={index}
+              ></TreeItem>
+                </View>
+              )}
+            )}
+            </ItemContainer>
       </MainScreenContainer>
     </SafeAreaView>
   );

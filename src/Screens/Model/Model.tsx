@@ -12,13 +12,15 @@ import HeaderDetail from "@/Components/header";
 const screenWidth = Dimensions.get('window').width;
 const screenScale = screenWidth / 375;
 
-export interface ModelProps {
-    navigation: ModelScreenNavigatorProps;
-}
+// export interface ModelProps {
+//     navigation: ModelScreenNavigatorProps;
+// }
 
 export const Model= (props: {
-    onNavigate: (string: RootScreens) => void;
+    navigation: any;
+    farmindex: any;
   }) => {
+    const farmindex = props.farmindex;
     const [modelstatus, setModelStatus] = useState(1);
     const [isConfirmationVisible, setConfirmationVisible] = useState(false); //Confirm delete UI
     const [activeModelId, setActiveModelId] = useState(1); //
@@ -64,11 +66,11 @@ export const Model= (props: {
   return(
     <SafeAreaView style={{backgroundColor: Colors.AVT_BACKGROUND,}}>
       <StatusBar style="auto" />
-      <HeaderDetail></HeaderDetail>
+      <HeaderDetail farmindex={props.farmindex} ></HeaderDetail>
       <View style={styles.body}>
         <View style={styles.leftNavigation}>
           <View style={styles.active}>
-            <Pressable onPress={() => props.onNavigate(RootScreens.MODEL)} style={styles.activePress}>
+            <Pressable onPress={() => props.navigation.navigate(RootScreens.MODEL, {farmindex: farmindex})} style={styles.activePress}>
               <View style={styles.activeCycle}>
                 <FontAwesome5 name="seedling" size={24} color={Colors.BOLD_BUTTON} style={styles.iconStyle}/>
               </View>
@@ -78,7 +80,7 @@ export const Model= (props: {
             </Pressable>
           </View>
           <View style={styles.inactive}>
-            <Pressable onPress={() => props.onNavigate(RootScreens.SCHEDULE)} style={styles.activePress}>
+            <Pressable onPress={() => props.navigation.navigate(RootScreens.SCHEDULE, {farmindex: farmindex})} style={styles.activePress}>
               <View style={styles.cycle}>
                 <FontAwesome5 name="list-ul" size={24} color={Colors.BOLD_BUTTON} style={styles.iconStyle} />
               </View>
@@ -88,7 +90,7 @@ export const Model= (props: {
             </Pressable>
           </View>
           <View style={styles.inactive}>
-            <Pressable onPress={() => props.onNavigate(RootScreens.WEATHER)} style={styles.activePress}>
+            <Pressable onPress={() => props.navigation.navigate(RootScreens.WEATHER, {farmindex: farmindex})} style={styles.activePress}>
               <View style={styles.cycle}>
                 <AntDesign name="cloudo" size={24} color={Colors.BOLD_BUTTON} style={styles.iconStyle} />
               </View>
@@ -98,7 +100,7 @@ export const Model= (props: {
             </Pressable>
           </View>
           <View style={styles.inactive}>
-            <Pressable onPress={() => props.onNavigate(RootScreens.HISTORY)} style={styles.activePress}>
+            <Pressable onPress={() => props.navigation.navigate(RootScreens.HISTORY, {farmindex: farmindex})} style={styles.activePress}>
               <View style={styles.cycle}>
                 <FontAwesome5 name="history" size={20} color={Colors.BOLD_BUTTON} style={styles.iconStyle} />
               </View>

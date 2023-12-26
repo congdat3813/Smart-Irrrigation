@@ -17,8 +17,10 @@ export interface IHistoryProps {
 }
 
 export const History = (props: {
-  onNavigate: (string: RootScreens) => void;
+  navigation: any;
+  farmindex: any;
   }) => {
+    const farmindex= props.farmindex;
     const DATA = [
       {
         day: '26.10.2023',
@@ -69,7 +71,7 @@ export const History = (props: {
     ];
 
     let bool = false;
-    let checked = DATA.slice(0,2);
+    let checked = DATA.slice(0,1);
     const [data, setData] = useState(checked);
     const [buttonState, setButtonState] = useState(true);
     // const [scroll, setScroll] = useState(true);
@@ -89,11 +91,11 @@ export const History = (props: {
   return(
     <SafeAreaView style={{backgroundColor: Colors.AVT_BACKGROUND,}}>
       <StatusBar style="auto" />
-      <HeaderDetail></HeaderDetail>
+      <HeaderDetail farmindex={props.farmindex} ></HeaderDetail>
       <View style={styles.body}>
         <View style={styles.leftNavigation}>
           <View style={styles.inactive}>
-            <Pressable onPress={() => props.onNavigate(RootScreens.MODEL)} style={styles.activePress}>
+            <Pressable onPress={() => props.navigation.navigate(RootScreens.MODEL, {farmindex: farmindex})} style={styles.activePress}>
               <View style={styles.cycle}>
                 <FontAwesome5 name="seedling" size={24} color={Colors.BOLD_BUTTON} style={styles.iconStyle}/>
               </View>
@@ -103,7 +105,7 @@ export const History = (props: {
             </Pressable>
           </View>
           <View style={styles.inactive}>
-            <Pressable onPress={() => props.onNavigate(RootScreens.SCHEDULE)} style={styles.activePress}>
+            <Pressable onPress={() => props.navigation.navigate(RootScreens.SCHEDULE, {farmindex: farmindex})} style={styles.activePress}>
               <View style={styles.cycle}>
                 <FontAwesome5 name="list-ul" size={24} color={Colors.BOLD_BUTTON} style={styles.iconStyle} />
               </View>
@@ -113,7 +115,7 @@ export const History = (props: {
             </Pressable>
           </View>
           <View style={styles.inactive}>
-            <Pressable onPress={() => props.onNavigate(RootScreens.WEATHER)} style={styles.activePress}>
+            <Pressable onPress={() => props.navigation.navigate(RootScreens.WEATHER, {farmindex: farmindex})} style={styles.activePress}>
               <View style={styles.cycle}>
                 <AntDesign name="cloudo" size={24} color={Colors.BOLD_BUTTON} style={styles.iconStyle} />
               </View>
@@ -123,7 +125,7 @@ export const History = (props: {
             </Pressable>
           </View>
           <View style={styles.active}>
-            <Pressable onPress={() => props.onNavigate(RootScreens.HISTORY)} style={styles.activePress}>
+            <Pressable onPress={() => props.navigation.navigate(RootScreens.HISTORY, {farmindex: farmindex})} style={styles.activePress}>
               <View style={styles.activeCycle}>
                 <FontAwesome5 name="history" size={20} color={Colors.BOLD_BUTTON} style={styles.iconStyle} />
               </View>

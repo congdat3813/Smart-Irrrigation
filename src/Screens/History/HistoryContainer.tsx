@@ -11,12 +11,12 @@ export type HistoryScreenNavigatorProps = NativeStackScreenProps<
   RootScreens.HISTORY
   >;
   
-export const HistoryContainer = ({navigation}:HistoryScreenNavigatorProps) => {
+export const HistoryContainer = ({route, navigation}) => {
   
-  const onNavigate = (screen: RootScreens) => {
-    navigation.navigate(screen);
-  };
-
+  // const navigation = (screen: RootScreens) => {
+  //   navigation.navigate(screen);
+  // };
+  const {farmindex} = route.params;
 
   // const [fetchOne, { data, isSuccess, isLoading, isFetching, error }] =
   //   useLazyGetUserQuery();
@@ -26,5 +26,5 @@ export const HistoryContainer = ({navigation}:HistoryScreenNavigatorProps) => {
   // }, [fetchOne, userId]);
 
   // return <Home data={data} isLoading={isLoading} />;
-  return <History onNavigate={onNavigate}/>;
+  return <History navigation={navigation} farmindex={farmindex}/>;
 };

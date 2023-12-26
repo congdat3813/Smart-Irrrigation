@@ -5,16 +5,18 @@ import { useLazyGetWeatherQuery } from "@/Services";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "@/Navigation";
 import { RootScreens } from "..";
+import { useSelector } from "react-redux";
 
 export type WeatherScreenNavigatorProps = NativeStackScreenProps<
   RootStackParamList,
   RootScreens.WEATHER
   >;
 
-export const WeatherContainer = ({navigation}:WeatherScreenNavigatorProps) => {
-  const onNavigate = (screen: RootScreens) => {
-    navigation.navigate(screen);
-  };
+export const WeatherContainer = ({route,navigation}) => {
+  // const navigation = (screen: RootScreens) => {
+  //   navigation.navigate(screen);
+  // };
+  const {farmindex} = route.params;
   const [weather, setWeather] = useState("Ho%20Chi%20Minh");
 
   const [fetchOne, { data, isSuccess, isLoading, isFetching, error }] =
@@ -22,5 +24,7 @@ export const WeatherContainer = ({navigation}:WeatherScreenNavigatorProps) => {
   useEffect(() => {
     fetchOne(weather);
   }, [fetchOne, weather]);
-  return <Weather data={data} onNavigate={onNavigate} isSuccess = {isSuccess}/>;
+  // const weatherapi = useSelector((state) => state.apiweather);
+  // console.log(weatherapi.queries.getWeather("Ho%20Chi%20Minh"));
+  return <Weather data={data} navigation={navigation} farmindex = {farmindex} isSuccess = {isSuccess}/>;
 };

@@ -6,9 +6,12 @@ import { RootScreens } from "../Screens/index";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "@/Navigation";
+import { FarmListJson } from "@/Config";
 
-const HeaderDetail = () => {
+const HeaderDetail = ( {farmindex}) => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const farmdata = FarmListJson[farmindex];
+  console.log(farmdata);
   return (
     <View style={styles.header}>
       <View style={styles.headerBar}>
@@ -20,16 +23,16 @@ const HeaderDetail = () => {
       </View>
       <View style={styles.intro}>
         <View style={{left: 25, marginBottom: 15, marginTop: 15,}}>
-          <Text style={styles.title}>Cây Xoài</Text>
+          <Text style={styles.title}>{farmdata.name}</Text>
         </View>
         <View style={styles.farmInfo}>
           <View>
-            <Text style={styles.normalText}>Ngày trồng: 22/08/2022</Text>
-            <Text style={styles.normalText}>Địa chỉ: Đồng Nai</Text>
+            <Text style={styles.normalText}>Ngày trồng: {farmdata.date}</Text>
+            <Text style={styles.normalText}>Địa chỉ: {farmdata.location}</Text>
           </View>
           <View>
-            <Text style={styles.normalText}>Loại cây: Xoài</Text>
-            <Text style={styles.normalText}>Diện tích: 2000 m2</Text>
+            <Text style={styles.normalText}>Loại cây: {farmdata.plant}</Text>
+            <Text style={styles.normalText}>Diện tích: {farmdata.acraege} m2</Text>
           </View>
         </View>
       </View>

@@ -36,21 +36,23 @@ import { RootScreens } from "@/Screens";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "@/Navigation";
-const TreeItem: FunctionComponent<TreeItemProps> = (props) => {
+import { FarmListJson } from "@/Config";
+const TreeItem: FunctionComponent = ({index}) => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const item = FarmListJson[index];
   return (
-    <Pressable onPress={() => navigation.navigate(RootScreens.MODEL)}>
+    <Pressable onPress={() => navigation.navigate(RootScreens.MODEL, {farmindex: index})}>
       <ItemContainer>
         <ImageContainer source={plant1}></ImageContainer>
         <DetailContainer>
           <BigText textStyles={{ fontSize: 20, marginBottom: 10 }}>
-            {props.treeName}
+            {item.name}
           </BigText>
           <RegularText textStyles={{ fontWeight: "200" }}>
-            {"Mô hình : " + props.model}
+            {"Mô hình : " + item.model}
           </RegularText>
           <RegularText textStyles={{ fontWeight: "200" }}>
-            {"Thời điểm tưới tiếp theo : " + props.timeOn}
+            {"Thời điểm tưới tiếp theo : " + item.timeOn}
           </RegularText>
         </DetailContainer>
       </ItemContainer>

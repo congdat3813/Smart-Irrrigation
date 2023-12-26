@@ -91,6 +91,7 @@ const LoginScreen: FunctionComponent = () => {
               />
               <TextInput
                 placeholder="Mật khẩu"
+                secureTextEntry={true}
                 style={{ flexGrow: 1 }}
               ></TextInput>
             </InputDivContainer>

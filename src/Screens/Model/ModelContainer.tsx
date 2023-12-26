@@ -1,6 +1,6 @@
 import { Model} from "./Model";
 import React, { useState, useEffect } from "react";
-import { useLazyGetUserQuery } from "@/Services";
+// import { useLazyGetUserQuery } from "@/Services";
 
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "@/Navigation";
@@ -11,13 +11,12 @@ export type ModelScreenNavigatorProps = NativeStackScreenProps<
   RootScreens.MODEL
   >;
   
-export const ModelContainer = ({navigation}:ModelScreenNavigatorProps) => {
+export const ModelContainer = ({route, navigation}) => {
   
-  const onNavigate = (screen: RootScreens) => {
-    navigation.navigate(screen);
-  };
-
-
+  // const navigation = (screen: RootScreens) => {
+  //   navigation.navigate(screen);
+  // };
+  const {farmindex} = route.params;
   // const [fetchOne, { data, isSuccess, isLoading, isFetching, error }] =
   //   useLazyGetUserQuery();
 
@@ -26,5 +25,5 @@ export const ModelContainer = ({navigation}:ModelScreenNavigatorProps) => {
   // }, [fetchOne, userId]);
 
   // return <Home data={data} isLoading={isLoading} />;
-  return <Model onNavigate={onNavigate}/>;
+  return <Model navigation={navigation} farmindex={farmindex}/>;
 };

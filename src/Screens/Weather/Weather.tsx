@@ -26,13 +26,14 @@ daysOfWeek[6] = {day: 'Thứ bảy'};
 
 export interface IWeatherProps {
   data: Root | undefined;
-  onNavigate: (string: RootScreens) => void;
+  navigation: any;
   isSuccess:  boolean;
+  farmindex: number;
 }
 
 export const Weather = (props: IWeatherProps) => {
-  const { data, onNavigate, isSuccess } = props;
-
+  const { data, navigation, isSuccess } = props;
+  const farmindex= props.farmindex;
   var moment = require('moment'); // require
   // moment().format(); 
 
@@ -143,11 +144,11 @@ export const Weather = (props: IWeatherProps) => {
   return(
     <SafeAreaView style={{backgroundColor: Colors.AVT_BACKGROUND,}}>
       <StatusBar style="auto" />
-      <HeaderDetail></HeaderDetail>
+      <HeaderDetail farmindex={props.farmindex} ></HeaderDetail>
       <View style={styles.body}>
       <View style={styles.leftNavigation}>
           <View style={styles.inactive}>
-            <Pressable onPress={() => onNavigate(RootScreens.MODEL)} style={styles.activePress}>
+            <Pressable onPress={() => navigation.navigate(RootScreens.MODEL, {farmindex: farmindex})} style={styles.activePress}>
               <View style={styles.cycle}>
                 <FontAwesome5 name="seedling" size={24} color={Colors.BOLD_BUTTON} style={styles.iconStyle}/>
               </View>
@@ -157,7 +158,7 @@ export const Weather = (props: IWeatherProps) => {
             </Pressable>
           </View>
           <View style={styles.inactive}>
-            <Pressable onPress={() => onNavigate(RootScreens.SCHEDULE)} style={styles.activePress}>
+            <Pressable onPress={() => navigation.navigate(RootScreens.SCHEDULE, {farmindex: farmindex})} style={styles.activePress}>
               <View style={styles.cycle}>
                 <FontAwesome5 name="list-ul" size={24} color={Colors.BOLD_BUTTON} style={styles.iconStyle} />
               </View>
@@ -167,7 +168,7 @@ export const Weather = (props: IWeatherProps) => {
             </Pressable>
           </View>
           <View style={styles.active}>
-            <Pressable onPress={() => onNavigate(RootScreens.WEATHER)} style={styles.activePress}>
+            <Pressable onPress={() => navigation.navigate(RootScreens.WEATHER, {farmindex: farmindex})} style={styles.activePress}>
               <View style={styles.activeCycle}>
                 <AntDesign name="cloudo" size={24} color={Colors.BOLD_BUTTON} style={styles.iconStyle} />
               </View>
@@ -177,7 +178,7 @@ export const Weather = (props: IWeatherProps) => {
             </Pressable>
           </View>
           <View style={styles.inactive}>
-            <Pressable onPress={() => onNavigate(RootScreens.HISTORY)} style={styles.activePress}>
+            <Pressable onPress={() => navigation.navigate(RootScreens.HISTORY, {farmindex: farmindex})} style={styles.activePress}>
               <View style={styles.cycle}>
                 <FontAwesome5 name="history" size={20} color={Colors.BOLD_BUTTON} style={styles.iconStyle} />
               </View>

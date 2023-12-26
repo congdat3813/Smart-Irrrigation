@@ -11,12 +11,12 @@ export type ScheduleScreenNavigatorProps = NativeStackScreenProps<
   RootScreens.SCHEDULE
   >;
   
-export const ScheduleContainer = ({navigation}:ScheduleScreenNavigatorProps) => {
+export const ScheduleContainer = ({route,navigation}) => {
   
-  const onNavigate = (screen: RootScreens) => {
-    navigation.navigate(screen);
-  };
-
+  // const navigation = (screen: RootScreens) => {
+  //   navigation.navigate(screen);
+  // };
+  const {farmindex} = route.params;
 
   // const [fetchOne, { data, isSuccess, isLoading, isFetching, error }] =
   //   useLazyGetUserQuery();
@@ -26,5 +26,5 @@ export const ScheduleContainer = ({navigation}:ScheduleScreenNavigatorProps) => 
   // }, [fetchOne, userId]);
 
   // return <Home data={data} isLoading={isLoading} />;
-  return <Schedule onNavigate={onNavigate}/>;
+  return <Schedule navigation={navigation} farmindex={farmindex}/>;
 };

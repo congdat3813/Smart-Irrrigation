@@ -13,6 +13,8 @@ import RegularButton from "@/Components/button/RegularButton";
 import { useDispatch } from "react-redux";
 import { TreeItemProps } from "@/Components/item/types";
 import {Picker} from '@react-native-picker/picker';
+import { FarmListJson } from "@/Config";
+import { RootScreens } from "..";
 
 const SubContainer = styled.View`
   height: 60px;
@@ -41,6 +43,31 @@ const AddFarmScreen: FunctionComponent = () => {
     // };
     const [selectedLocation, setSelectedLocation] = useState('');
     const [selectedPlant, setSelectedPlant] = useState('');
+    const [area, setArea] = useState('');
+    const [name, setName] = useState('');
+  function handleAddItem() {
+    FarmListJson.push({
+      name: name,
+      date: "",
+      model: "",
+      timeOn: "",
+      plant: selectedPlant,
+      acraege: area,
+      location: selectedLocation,
+      scenario: [],
+      sche: []
+    })
+    
+  }
+
+  function handleNameChange(text: string): void {
+    setName(text);
+  }
+
+  function handleAreaChange(text: string): void {
+    setArea(text);
+  }
+
   return (
     <SafeAreaView style={{ backgroundColor: "#F9F9F9", flex: 1 }}>
       <SubContainer style={{backgroundColor:"#F9F9F9"}}>
@@ -61,10 +88,8 @@ const AddFarmScreen: FunctionComponent = () => {
           <TextInput
             placeholder="Tên nông trại"
             style={{ flexGrow: 1 , padding:10}}
-            // value={newItem.treeName}
-            // onChangeText={(text) =>
-            //   setNewItem({ ...newItem, treeName: text })
-            //}
+            value={name}
+            onChangeText= {handleNameChange}
           ></TextInput>
         </SubContainer>
         {/* <SubContainer> */}
@@ -83,7 +108,7 @@ const AddFarmScreen: FunctionComponent = () => {
             style={{ flexGrow: 1 , padding:10}}
             >
             <Picker.Item label="Tp.Hồ Chí Minh"  value="Hồ Chí Minh" />
-            <Picker.Item label="Đồng Tháp" value="Đồng " />
+            <Picker.Item label="Đồng Tháp" value="Đồng Tháp" />
           </Picker>
         </SubContainer>
         <SubContainer>
@@ -103,17 +128,16 @@ const AddFarmScreen: FunctionComponent = () => {
           <TextInput
             placeholder="Diện tích"
             style={{ flexGrow: 1 , padding:10}}
-            // value={newItem.moisture}
-            // onChangeText={(text) =>
-            //   setNewItem({ ...newItem, moisture: text })
-            // }
+            value={area}
+            onChangeText= {handleAreaChange}
+            keyboardType="numeric"
           ></TextInput>
           {/* <MaterialIcons name="keyboard-arrow-down" size={24} color="black" /> */}
         </SubContainer>
         <RegularButton
             onPress={() => {
-              // handleAddItem
-              navigation.goBack();
+              handleAddItem();
+              navigation.navigate(RootScreens.MAINTREE);
             }}
             btnStyles={{ marginVertical: 40, width: 130 , alignSelf:'center'}}
             textStyles={{ color: `${colors.white}`, fontSize: 20 }}

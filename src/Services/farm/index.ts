@@ -3,7 +3,7 @@ import { API } from "../base";
 export interface Farm {
   id: number;
   name: string;
-  source: string;
+  model: string;
   desc: string;
 }
 
